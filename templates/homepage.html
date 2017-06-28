@@ -1,9 +1,24 @@
-<h1>This is the homepage. yippeee!</h1>
-
-<form "/results">
-  Search <input type="text" name="firstname"><br>
-  Last name:<br>
-  <input type="text" name="lastname" value="Mouse"><br><br>
-  <input type="submit" value="Submit">
-  <input type="reset">
-</form>
+<!DOCTYPE HTML>		
+<html>
+<head>
+	<h1>Search for a dog</h1>
+</head>
+<body>
+	<form action="/results" method="GET">
+	  Location <input type="text" name="location">
+	  <!-- Age 
+	  <select name="age">
+	  	<option value="Baby">Baby</option>
+	  	<option value="Young">Young</option>
+	  	<option value="Adult">Adult</option>
+	  	<option value="Senior">Senior</option>
+		</select>
+		Gender
+		<select name="sex">
+	  	<option value="M">Male</option>
+	  	<option value="F">Female</option>
+		</select> -->
+	  <input type="submit" value="Submit">
+	</form>
+</body>
+</html>

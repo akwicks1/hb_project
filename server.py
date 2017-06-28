@@ -5,6 +5,10 @@ from flask_debugtoolbar import DebugToolbarExtension
 
 from model import connect_to_db, db, User, Favorite, Dog
 
+import json
+import requests
+import xmltodict
+import os
 
 app = Flask(__name__)
 
@@ -16,6 +20,10 @@ app.secret_key = "ABC"
 app.jinja_env.undefined = StrictUndefined
 
 
+
+pf_key=os.environ['PF_KEY'],
+pf_secret=os.environ['PF_SECRET']
+
 @app.route('/')
 def index():
     """Homepage."""
@@ -24,10 +32,58 @@ def index():
 
 @app.route('/results')
 def show_results():
-    """Search results."""
+    """Search for the get request pet.find."""
+
+    location = request.args.get("location")
+    # age = request.args.get("age")
+    # sex = request.args.get("sex")
+    print location
+
+    # animal = "dog"
+    payload = {'key': pf_key, 'location': location}
+
+    dog2 = requests.get('http://api.petfinder.com/pet.find?', params=payload)
+    print dog2
+    parse_dog2 = xmltodict.parse(dog2.text)
+    
+    json_dog2 = json.dumps(parse_dog2)
+
+    print json_dog2
 
 
-    return render_template(results.html)
+
+
+
+    return render_template("/results.html", json_dog2=json_dog2)
+
+
+@app.route('/register')
+def register_user():
+    """Register user."""
+
+
+
+
+    return render_template("/register.html")
+
+@app.route('/register', methods=['POST'])
+def register_process():
+    """Process registration."""
+
+    # Get form variables
+    email = request.form["email"]
+    password = request.form["password"]
+    firstname = request.form["firstname"]
+    lastname = request.form["lastname"]
+    zipcode = request.form["zipcode"]
+
+    # new_user = User(email=email, password=password, age=age, zipcode=zipcode)
+
+    # db.session.add(new_user)
+    # db.session.commit()
+
+    # flash("User %s added." % email)
+    # return redirect("/")
 
 
 if __name__ == "__main__":
