@@ -17,6 +17,9 @@ class User(db.Model):
     zipcode = db.Column(db.String(15))
     phone_number = db.Column(db.String(10), nullable=True)
 
+    favorites = db.relationship("Favorite",
+    							backref=db.backref("users"))
+
     def __repr__(self):
         """Provide user's information."""
 
@@ -31,11 +34,15 @@ class Favorite(db.Model):
 	user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
 	petfinder_id = db.Column(db.Integer, db.ForeignKey('dogs.petfinder_id'))
 
+	user = db.relationship("User",
+							backref=db.backref("favorites"))
+
 	def __repr__(self):
 		"""Provide favorites details."""
 
 		return "<Fave fave_id=%s User user_id=%s PF_id petfinder_id%s>" % (
 			self.user_id, self.fave_id, self.petfinder_id)
+
 
 class Dog(db.Model):
 	"""Information about dog from petfinder."""
@@ -49,6 +56,8 @@ class Dog(db.Model):
 	age = db.Column(db.Integer)
 	breed = db.Column(db.String(50))
 
+	favorites = db.relationship("Favorite",
+								 backref=db.backref("dogs"))
 	def __repr__(self):
 		"""Provide dog details."""
 
@@ -60,7 +69,13 @@ class Shelter(db.Model):
 	__tablename__ = "shelters"
 
 	shelter_id = db.Column(db.String(6), primary_key=True)
-	zipcode = db.Column(db.String(15)) #ForeignKey to User?
+	zipcode = db.Column(db.String(15)) 
+	latitude = db.Column(db.String(12))
+	longitude = db.Column(db.String(13))
+
+
+	dogs = db.relationship("Dog",
+							backref=db.backref("shelters"))
 
 	def __repr__(self):
 		"""Provide shelter details."""

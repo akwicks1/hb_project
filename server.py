@@ -28,10 +28,14 @@ pf_secret=os.environ['PF_SECRET']
 def index():
     """Homepage."""
 
-    return render_template("homepage.html")
+    breeds = requests.get('http://api.petfinder.com/breed.list?key=9ef528dbe181850f45ad491b29f0344a&animal=dog')
+    breeds_dict = xmltodict.parse(breeds.text)
+    #Can pull from database/copy drop down into a file
+
+    return render_template("homepage.html", breeds_dict=breeds_dict)
 
 @app.route('/results')
-def show_results():
+def search_results():
     """Search for the get request pet.find."""
 
     location = request.args.get("location")
@@ -47,21 +51,19 @@ def show_results():
 
     animal_dict = xmltodict.parse(animal_response.text)
 
+    shelter = animal_dict['petfinder']['pets']['pet']['shelterId']
 
+    shelter_payload = {'key': pf_key, 'id': shelter}
 
-    # shelter = animal_dict['petfinder']['pets']['pet']['shelterId']
+    shelter_location = requests.get('http://api.petfinder.com/shelter.get?', params=shelter_payload)
 
-    # shelter_payload = {'key': pf_key, 'id': 'shelter'}
+    shelter_dict = xmltodict.parse(shelter_location.text)
 
-    # shelter_location = requests.get('http://api.petfinder.com/shelter.get,', params=shelter_payload)
+    latitude = shelter_dict['petfinder']['shelter']['latitude']
+    longitude = shelter_dict['petfinder']['shelter']['longitude']
 
-    # shelter_dict = xmltodict.parse(shelter_location.text)
-
-    # latitude = shelter_dict['petfinder']['shelter']['latitude']
-    # longitude = shelter_dict['petfinder']['shelter']['longitude']
-
-
-    
+    print latitude
+    print longitude
 
     return render_template("/results.html", animal_dict=animal_dict)
 
