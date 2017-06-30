@@ -35,36 +35,62 @@ def show_results():
     """Search for the get request pet.find."""
 
     location = request.args.get("location")
-    # age = request.args.get("age")
-    # sex = request.args.get("sex")
-    print location
+    age = request.args.get("age")
+    sex = request.args.get("sex")
 
-    # animal = "dog"
-    payload = {'key': pf_key, 'location': location}
 
-    dog2 = requests.get('http://api.petfinder.com/pet.find?', params=payload)
-    print dog2
-    parse_dog2 = xmltodict.parse(dog2.text)
+    animal = "dog"
+    count = 1
+    payload = {'key': pf_key, 'animal': animal, 'count': count, 'location': location, 'sex': sex}
+
+    animal_response = requests.get('http://api.petfinder.com/pet.find?', params=payload)
+
+    animal_dict = xmltodict.parse(animal_response.text)
+
+
+
+    # shelter = animal_dict['petfinder']['pets']['pet']['shelterId']
+
+    # shelter_payload = {'key': pf_key, 'id': 'shelter'}
+
+    # shelter_location = requests.get('http://api.petfinder.com/shelter.get,', params=shelter_payload)
+
+    # shelter_dict = xmltodict.parse(shelter_location.text)
+
+    # latitude = shelter_dict['petfinder']['shelter']['latitude']
+    # longitude = shelter_dict['petfinder']['shelter']['longitude']
+
+
     
-    json_dog2 = json.dumps(parse_dog2)
 
-    print json_dog2
+    return render_template("/results.html", animal_dict=animal_dict)
+
+@app.route('/randomresult')
+def show_random():
+    """Search for a random dog."""
+
+    location = request.args.get("location")
+    age = request.args.get("age")
+    sex = request.args.get("sex")
+
+    output = "full"
+    animal = "dog"
+    count = 1
+    payload = {'key': pf_key, 'output': output, 'animal': animal, 'count': count, 'location': location, 'sex': sex}
+
+    animal_response = requests.get('http://api.petfinder.com/pet.getRandom?', params=payload)
+
+    animal_dict = xmltodict.parse(animal_response.text)
 
 
-
-
-
-    return render_template("/results.html", json_dog2=json_dog2)
-
+    return render_template('random_result.html', animal_dict=animal_dict)
 
 @app.route('/register')
 def register_user():
     """Register user."""
 
 
-
-
-    return render_template("/register.html")
+    return render_template('register.html')
 
 @app.route('/register', methods=['POST'])
 def register_process():
@@ -76,6 +102,7 @@ def register_process():
     firstname = request.form["firstname"]
     lastname = request.form["lastname"]
     zipcode = request.form["zipcode"]
+    phonenumber = request.form["phonenumber"]
 
     # new_user = User(email=email, password=password, age=age, zipcode=zipcode)
 
@@ -83,13 +110,44 @@ def register_process():
     # db.session.commit()
 
     # flash("User %s added." % email)
-    # return redirect("/")
+    return redirect("/")
+
+@app.route('/login', methods=['POST'])
+def login_process():
+    """Process login."""
+
+    # Get form variables
+    email = request.form["email"]
+    password = request.form["password"]
+
+    if not user:
+        flash("No such user")
+        return redirect("/login")
+
+    if user.password != password:
+        flash("Incorrect password")
+        return redirect("/login")
+
+    session["user_id"] = user.user_id
+
+    flash("Logged in")
+    return redirect("/users/%s" % user.user_id)
+
+@app.route('/logout')
+def logout():
+    """Log out."""
+
+    del session["user_id"]
+    flash("Logged Out.")
+    return redirect("/")
+
 
 
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the point
     # that we invoke the DebugToolbarExtension
     app.debug = True
+    app.config["TEMPLATES_AUTO_RELOAD"] = True
 
     connect_to_db(app)
 

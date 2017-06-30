@@ -6,7 +6,7 @@
 <body>
 	<form action="/results" method="GET">
 	  Location <input type="text" name="location">
-	  <!-- Age 
+	  Age 
 	  <select name="age">
 	  	<option value="Baby">Baby</option>
 	  	<option value="Young">Young</option>
@@ -17,7 +17,25 @@
 		<select name="sex">
 	  	<option value="M">Male</option>
 	  	<option value="F">Female</option>
-		</select> -->
+		</select>
+	  <input type="submit" value="Submit">
+	</form>
+
+	<h1>Random dog</h1>
+	<form action="/randomresult" method="GET">
+		Location <input type="text" name="location">
+	  Age 
+	  <select name="age">
+	  	<option value="Baby">Baby</option>
+	  	<option value="Young">Young</option>
+	  	<option value="Adult">Adult</option>
+	  	<option value="Senior">Senior</option>
+		</select>
+		Gender
+		<select name="sex">
+	  	<option value="M">Male</option>
+	  	<option value="F">Female</option>
+		</select>
 	  <input type="submit" value="Submit">
 	</form>
 </body>

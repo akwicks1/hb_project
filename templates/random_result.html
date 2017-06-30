@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>		
+<html>
+<head>
+	<h1>Random Dog</h1>
+</head>
+<body>
+	{{ animal_dict['petfinder']['pet']['lastUpdate'] }}<br>
+	{{ animal_dict['petfinder']['pet']['size'] }}<br>
+	{{ animal_dict['petfinder']['pet']['sex'] }}<br>
+	{{ animal_dict['petfinder']['pet']['name'] }}<br>
+	{{ animal_dict['petfinder']['pet']['status'] }}<br>
+	{{ animal_dict['petfinder']['pet']['id'] }}<br>
+	{{ animal_dict['petfinder']['pet']['shelterId'] }}<br>
+	{{ animal_dict['petfinder']['pet']['description']}}<br>
+	{{ animal_dict['petfinder']['pet']['age'] }}<br>
+	{{ animal_dict['petfinder']['pet']['mix'] }}<br>
+	{{ animal_dict['petfinder']['pet']['contact']['address1'] }}
+	{{ animal_dict['petfinder']['pet']['contact']['city'] }}
+	{{ animal_dict['petfinder']['pet']['contact']['state'] }}
+	{{ animal_dict['petfinder']['pet']['contact']['zip'] }}<br>
+	{{ animal_dict['petfinder']['pet']['breeds']['breed'] }}<br>
+
+
+   <img src="{{ animal_dict['petfinder']['pet']['media']['photos']['photo'][3]['#text'] }}">
+       
+
+    
+
+
+</body>
+</html>
