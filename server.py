@@ -23,6 +23,7 @@ app.jinja_env.undefined = StrictUndefined
 
 pf_key=os.environ['PF_KEY'],
 pf_secret=os.environ['PF_SECRET']
+map_key=os.environ['MAP_KEY']
 
 @app.route('/')
 def index():
@@ -32,7 +33,15 @@ def index():
     breeds_dict = xmltodict.parse(breeds.text)
     #Can pull from database/copy drop down into a file
 
+    # db.session.add(breeds_list)
+    # db.session.commit()
     return render_template("homepage.html", breeds_dict=breeds_dict)
+
+@app.route('/map')
+def show_map():
+    """Show map."""
+
+    return render_template("sample_map.html")
 
 @app.route('/results')
 def search_results():
@@ -62,8 +71,8 @@ def search_results():
     latitude = shelter_dict['petfinder']['shelter']['latitude']
     longitude = shelter_dict['petfinder']['shelter']['longitude']
 
-    print latitude
-    print longitude
+    print "This is the latitude", latitude
+    print "This is the longitude", longitude
 
     return render_template("/results.html", animal_dict=animal_dict)
 
@@ -106,12 +115,13 @@ def register_process():
     zipcode = request.form["zipcode"]
     phonenumber = request.form["phonenumber"]
 
-    # new_user = User(email=email, password=password, age=age, zipcode=zipcode)
+    new_user = User(email=email, password=password, firstname=firstname,
+                    lastname=lastname, zipcode=zipcode, phonenumber=phonenumber)
 
     # db.session.add(new_user)
     # db.session.commit()
 
-    # flash("User %s added." % email)
+    flash("User %s added." % email)
     return redirect("/")
 
 @app.route('/login', methods=['POST'])
@@ -141,6 +151,7 @@ def logout():
 
     del session["user_id"]
     flash("Logged Out.")
+
     return redirect("/")
 
 

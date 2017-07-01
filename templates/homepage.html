@@ -23,10 +23,10 @@
 			{% for breed in breeds_dict['petfinder']['breeds']['breed'] %}
       	<option value = "{{ breed }}">{{ breed }}</option>
     		{% endfor %}
-    </select>
-   <input type="submit" value="Submit">
+   		</select>
+   		Count <input type="number" name="count">
+		<input type="submit" value="Submit">
 	</form>
-
 
 	<h1>Random dog</h1>
 	<form action="/randomresult" method="GET">
@@ -44,6 +44,13 @@
 	  	<option value="F">Female</option>
 		</select>
 	  <input type="submit" value="Submit">
+	</form>
+
+	<form action="/login">
+		<input type="submit" value="Login">
+	</form>
+	<form action="/register">
+		<input type="submit" value="Register">
 	</form>
 </body>
 </html>
