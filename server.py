@@ -5,6 +5,8 @@ from flask_debugtoolbar import DebugToolbarExtension
 
 from model import connect_to_db, db, User, Favorite, Dog
 
+import datetime, dateutil.parser
+
 import json
 import requests
 import xmltodict
@@ -60,6 +62,11 @@ def search_results():
 
     animal_dict = xmltodict.parse(animal_response.text)
 
+    last_update = animal_dict['petfinder']['pets']['pet']['lastUpdate']
+
+    time_format = dateutil.parser.parse(last_update)
+    time_updated = time_format.strftime("%m-%d-%Y %H:%M:%S")
+
     shelter = animal_dict['petfinder']['pets']['pet']['shelterId']
 
     shelter_payload = {'key': pf_key, 'id': shelter}
@@ -74,7 +81,7 @@ def search_results():
     print "This is the latitude", latitude
     print "This is the longitude", longitude
 
-    return render_template("/results.html", animal_dict=animal_dict)
+    return render_template("/results.html", animal_dict=animal_dict, time_updated=time_updated)
 
 @app.route('/randomresult')
 def show_random():
@@ -93,8 +100,13 @@ def show_random():
 
     animal_dict = xmltodict.parse(animal_response.text)
 
+    last_update = animal_dict['petfinder']['pet']['lastUpdate']
 
-    return render_template('random_result.html', animal_dict=animal_dict)
+    time_format = dateutil.parser.parse(last_update)
+    time_updated = time_format.strftime("%m-%d-%Y %H:%M:%S")
+
+
+    return render_template('random_result.html', animal_dict=animal_dict, time_updated=time_updated)
 
 @app.route('/register')
 def register_user():
