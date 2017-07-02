@@ -21,7 +21,17 @@ app.secret_key = "ABC"
 # This is horrible. Fix this so that, instead, it raises an error.
 app.jinja_env.undefined = StrictUndefined
 
-
+def print_dict(v, prefix=''):
+    if isinstance(v, dict):
+        for k, v2 in v.items():
+            p2 = "{}['{}']".format(prefix, k)
+            print_dict(v2, p2)
+    elif isinstance(v, list):
+        for i, v2 in enumerate(v):
+            p2 = "{}[{}]".format(prefix, i)
+            print_dict(v2, p2)
+    else:
+        print('{} = {}'.format(prefix, repr(v)))
 
 pf_key=os.environ['PF_KEY'],
 pf_secret=os.environ['PF_SECRET']
@@ -52,36 +62,48 @@ def search_results():
     location = request.args.get("location")
     age = request.args.get("age")
     sex = request.args.get("sex")
+    count = request.args.get("count")
 
 
     animal = "dog"
-    count = 1
     payload = {'key': pf_key, 'animal': animal, 'count': count, 'location': location, 'sex': sex}
 
     animal_response = requests.get('http://api.petfinder.com/pet.find?', params=payload)
 
     animal_dict = xmltodict.parse(animal_response.text)
 
-    last_update = animal_dict['petfinder']['pets']['pet']['lastUpdate']
+    animal_list = animal_dict['petfinder']['pets']['pet']
 
-    time_format = dateutil.parser.parse(last_update)
-    time_updated = time_format.strftime("%m-%d-%Y %H:%M:%S")
+    for animal_obj in animal_list:
+        last_update = animal_obj['lastUpdate']
+        shelter_id = animal_obj['shelterId']
+        print animal_obj
+        print last_update
+        print shelter_id
 
-    shelter = animal_dict['petfinder']['pets']['pet']['shelterId']
+    # print animal_list
+    # import ipdb
+    # ipdb.set_trace()
+    
 
-    shelter_payload = {'key': pf_key, 'id': shelter}
+    # time_format = dateutil.parser.parse(last_update)
+    # time_updated = time_format.strftime("%m-%d-%Y %H:%M:%S")
 
-    shelter_location = requests.get('http://api.petfinder.com/shelter.get?', params=shelter_payload)
+    # shelter = animal_dict['petfinder']['pets']['pet']['shelterId']
 
-    shelter_dict = xmltodict.parse(shelter_location.text)
+    # shelter_payload = {'key': pf_key, 'id': shelter}
 
-    latitude = shelter_dict['petfinder']['shelter']['latitude']
-    longitude = shelter_dict['petfinder']['shelter']['longitude']
+    # shelter_location = requests.get('http://api.petfinder.com/shelter.get?', params=shelter_payload)
 
-    print "This is the latitude", latitude
-    print "This is the longitude", longitude
+    # shelter_dict = xmltodict.parse(shelter_location.text)
 
-    return render_template("/results.html", animal_dict=animal_dict, time_updated=time_updated)
+    # latitude = shelter_dict['petfinder']['shelter']['latitude']
+    # longitude = shelter_dict['petfinder']['shelter']['longitude']
+
+    # print "This is the latitude", latitude
+    # print "This is the longitude", longitude
+    return 'yes'
+    # return render_template("/results.html", animal_dict=animal_dict, time_updated=time_updated)
 
 @app.route('/randomresult')
 def show_random():
@@ -171,7 +193,7 @@ def logout():
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the point
     # that we invoke the DebugToolbarExtension
-    app.debug = True
+    # app.debug = True
     app.config["TEMPLATES_AUTO_RELOAD"] = True
 
     connect_to_db(app)
