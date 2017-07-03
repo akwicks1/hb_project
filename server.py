@@ -83,17 +83,17 @@ def search_results():
 
 
 
-    # shelter_payload = {'key': pf_key, 'id': shelter}
+        shelter_payload = {'key': pf_key, 'id': shelter_id}
 
-    # shelter_location = requests.get('http://api.petfinder.com/shelter.get?', params=shelter_payload)
+        shelter_location = requests.get('http://api.petfinder.com/shelter.get?', params=shelter_payload)
 
-    # shelter_dict = xmltodict.parse(shelter_location.text)
+        shelter_dict = xmltodict.parse(shelter_location.text)
 
-    # latitude = shelter_dict['petfinder']['shelter']['latitude']
-    # longitude = shelter_dict['petfinder']['shelter']['longitude']
+        latitude = shelter_dict['petfinder']['shelter']['latitude']
+        longitude = shelter_dict['petfinder']['shelter']['longitude']
 
-    # print "This is the latitude", latitude
-    # print "This is the longitude", longitude
+        print "This is the latitude", latitude
+        print "This is the longitude", longitude
     # return 'yes'
     return render_template("/results.html", animal_list=animal_list, time_updated=time_updated)
 
