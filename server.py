@@ -78,6 +78,7 @@ def search_results():
         last_update = animal_obj['lastUpdate']
         time_format = dateutil.parser.parse(last_update)
         time_updated = time_format.strftime("%m-%d-%Y %H:%M:%S")
+        shelter_id = animal_obj['shelterId']
         print time_updated
 
 
