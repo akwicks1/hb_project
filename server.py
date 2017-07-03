@@ -70,10 +70,12 @@ def search_results():
 
     animal_response = requests.get('http://api.petfinder.com/pet.find?', params=payload)
 
-    animal_dict = xmltodict.parse(animal_response.text)
+    animal_dict = xmltodict.parse(animal_response.text.encode('utf-8'))
 
     animal_list = animal_dict['petfinder']['pets']['pet']
-
+    print animal_list
+    animal_list2  = animal_dict['petfinder']['pets']
+    print animal_list2
     for animal_obj in animal_list:
         last_update = animal_obj['lastUpdate']
         shelter_id = animal_obj['shelterId']
@@ -81,15 +83,16 @@ def search_results():
         print last_update
         print shelter_id
 
-    # print animal_list
+    # print animal_list()
     # import ipdb
     # ipdb.set_trace()
     
 
-    # time_format = dateutil.parser.parse(last_update)
-    # time_updated = time_format.strftime("%m-%d-%Y %H:%M:%S")
+        time_format = dateutil.parser.parse(last_update)
+        time_updated = time_format.strftime("%m-%d-%Y %H:%M:%S")
+        print time_updated
 
-    # shelter = animal_dict['petfinder']['pets']['pet']['shelterId']
+
 
     # shelter_payload = {'key': pf_key, 'id': shelter}
 
@@ -102,8 +105,8 @@ def search_results():
 
     # print "This is the latitude", latitude
     # print "This is the longitude", longitude
-    return 'yes'
-    # return render_template("/results.html", animal_dict=animal_dict, time_updated=time_updated)
+    # return 'yes'
+    return render_template("/results.html", animal_list=animal_list, time_updated=time_updated)
 
 @app.route('/randomresult')
 def show_random():
@@ -193,7 +196,7 @@ def logout():
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the point
     # that we invoke the DebugToolbarExtension
-    # app.debug = True
+    app.debug = True
     app.config["TEMPLATES_AUTO_RELOAD"] = True
 
     connect_to_db(app)

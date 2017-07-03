@@ -4,28 +4,29 @@
 	<h1>Result for a dog</h1>
 
 </head>
-<body>
-	<!-- Last update: {{ time_updated }}<br> -->
-	Size: {{ animal_dict['petfinder']['pets']['pet']['size'] }}<br>
-	Gender: {{ animal_dict['petfinder']['pets']['pet']['sex'] }}<br>
-	Name: {{ animal_dict['petfinder']['pets']['pet']['name'] }}<br>
-	Adoption Status: {{ animal_dict['petfinder']['pets']['pet']['status'] }}<br>
-	Pet ID :{{ animal_dict['petfinder']['pets']['pet']['id'] }}<br>
-	Shelter ID: {{ animal_dict['petfinder']['pets']['pet']['shelterId'] }}<br>
-	Description: {{ animal_dict['petfinder']['pets']['pet']['description']}}<br>
-	Age: {{ animal_dict['petfinder']['pets']['pet']['age'] }}<br>
-	Mix: {{ animal_dict['petfinder']['pets']['pet']['mix'] }}<br>
-	Address: {{ animal_dict['petfinder']['pets']['pet']['contact']['address1'] }}
-	{{ animal_dict['petfinder']['pets']['pet']['contact']['city'] }}
-	{{ animal_dict['petfinder']['pets']['pet']['contact']['state'] }}
-	{{ animal_dict['petfinder']['pets']['pet']['contact']['zip'] }}<br>
-	Breed: {{ animal_dict['petfinder']['pets']['pet']['breeds']['breed'] }}<br>
+	<body>
+		{% for animal_obj in animal_list %}
+				{{time_updated}}<br>
+				{{ animal_obj['name'] }}<br>
+				{{ animal_obj['id'] }}<br>
+				{{ animal_obj['shelterId'] }}<br>
+				{{ animal_obj['size'] }}<br>
+				{{ animal_obj['sex'] }}<br>
+				{{ animal_obj['status'] }}<br>
+				{{ animal_obj['age'] }}<br>
+				{{ animal_obj['mix'] }}<br>
+				{{ animal_obj['breeds']['breed'] }}<br>
+				{{ animal_obj['description'] }}<br>
+				{{ animal_obj['contact']['address1']}}
+				{{ animal_obj['contact']['address2']}}
+				{{ animal_obj['contact']['city'] }}
+				{{ animal_obj['contact']['state']}}
+				{{ animal_obj['contact']['zip']}}
+				
 
-   <img src="{{ animal_dict['petfinder']['pets']['pet']['media']['photos']['photo'][3]['#text'] }}">
-       
+				
 
-    
-
+		{% endfor %}
 
 </body>
 </html>
