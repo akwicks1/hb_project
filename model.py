@@ -14,11 +14,11 @@ class User(db.Model):
     password = db.Column(db.String(64))
     first_name = db.Column(db.String(20))
     last_name = db.Column(db.String(20))
-    zipcode = db.Column(db.String(15))
+    zip_code = db.Column(db.String(15))
     phone_number = db.Column(db.String(10), nullable=True)
 
-    favorites = db.relationship("Favorite",
-    							backref=db.backref("users"))
+    # favorites = db.relationship("Favorite",
+    # 							backref=db.backref("users"))
 
     def __repr__(self):
         """Provide user's information."""

@@ -73,21 +73,9 @@ def search_results():
     animal_dict = xmltodict.parse(animal_response.text.encode('utf-8'))
 
     animal_list = animal_dict['petfinder']['pets']['pet']
-    print animal_list
-    animal_list2  = animal_dict['petfinder']['pets']
-    print animal_list2
+
     for animal_obj in animal_list:
         last_update = animal_obj['lastUpdate']
-        shelter_id = animal_obj['shelterId']
-        print animal_obj
-        print last_update
-        print shelter_id
-
-    # print animal_list()
-    # import ipdb
-    # ipdb.set_trace()
-    
-
         time_format = dateutil.parser.parse(last_update)
         time_updated = time_format.strftime("%m-%d-%Y %H:%M:%S")
         print time_updated
@@ -140,26 +128,35 @@ def register_user():
 
     return render_template('register.html')
 
-@app.route('/register', methods=['POST'])
+@app.route('/register-success', methods=['POST'])
 def register_process():
     """Process registration."""
 
     # Get form variables
     email = request.form["email"]
     password = request.form["password"]
-    firstname = request.form["firstname"]
-    lastname = request.form["lastname"]
-    zipcode = request.form["zipcode"]
-    phonenumber = request.form["phonenumber"]
+    first_name = request.form["first_name"]
+    last_name = request.form["last_name"]
+    zip_code = request.form["zip_code"]
+    phone_number = request.form["phone_number"]
 
-    new_user = User(email=email, password=password, firstname=firstname,
-                    lastname=lastname, zipcode=zipcode, phonenumber=phonenumber)
+    new_user = User(email=email, password=password, first_name=first_name,
+                    last_name=last_name, zip_code=zip_code, phone_number=phone_number)
 
-    # db.session.add(new_user)
-    # db.session.commit()
+    db.session.add(new_user)
+    db.session.commit()
 
     flash("User %s added." % email)
     return redirect("/")
+
+
+
+
+@app.route('/login', methods=['GET'])
+def login_form():
+    """Show login form."""
+
+    return render_template("login_form.html")
 
 @app.route('/login', methods=['POST'])
 def login_process():
@@ -168,6 +165,8 @@ def login_process():
     # Get form variables
     email = request.form["email"]
     password = request.form["password"]
+
+    user = User.query.filter_by(email=email).first()
 
     if not user:
         flash("No such user")
@@ -181,6 +180,13 @@ def login_process():
 
     flash("Logged in")
     return redirect("/users/%s" % user.user_id)
+
+@app.route("/users/<int:user_id>")
+def profile_page(user_id):
+    """User's profile page."""
+
+    user = User.query.get(user_id)
+    return render_template("profile_page.html", user=user)
 
 @app.route('/logout')
 def logout():
