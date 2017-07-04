@@ -122,6 +122,21 @@ def show_random():
 
     return render_template('random_result.html', animal_dict=animal_dict, time_updated=time_updated)
 
+@app.route('/favorites', methods=['POST'])
+def add_to_favorite():
+    """Adds dog to favorites."""
+    ##make new favorite object
+    user_id = session["user_id"]
+    petfinder_id = request.form.get("petfinder_id")
+   
+    fave_dog = Favorite(petfinder_id=petfinder_id, user_id=user_id)
+   
+
+    db.session.add(fave_dog)
+    db.session.commit()
+
+    print "it worked."
+
 @app.route('/register')
 def register_user():
     """Register user."""

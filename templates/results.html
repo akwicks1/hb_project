@@ -23,9 +23,22 @@
 				{{ animal_obj['contact']['state']}}
 				{{ animal_obj['contact']['zip']}}<br>
 			  <img src="{{ animal_obj['media']['photos']['photo'][3]['#text'] }}">
-				
+				<button id="favorite" type="button">Favorite Me!</button>
 
 		{% endfor %}
+<script src="https://code.jquery.com/jquery.js"></script>
+<script >
+
+	function dogAdded(){
+		console.log("Dog Added")
+	} 
+
+	function addDogToFavorites(){
+		$.post('/favorites', dogAdded);
+	}
+
+	$('#favorite').on('click', addDogToFavorites); 
+	</script>
 
 </body>
 </html>
