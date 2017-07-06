@@ -23,21 +23,52 @@
 				{{ animal_obj['contact']['state']}}
 				{{ animal_obj['contact']['zip']}}<br>
 			  <img src="{{ animal_obj['media']['photos']['photo'][3]['#text'] }}">
-				<button id="favorite" type="button">Favorite Me!</button>
+
+				<button data-shelter="{{ animal_obj['shelterId'] }}" 
+								data-status="{{ animal_obj['status'] }}"
+								data-age="{{ animal_obj['age'] }}"
+								data-breed="{{ animal_obj['breeds']['breed'] }}"
+								data-url="{{ animal_obj['media']['photos']['photo'][3]['#text'] }}"
+								class="favorite" 
+								id="{{ animal_obj['id'] }}" type="button">Favorite Me!</button>
 
 		{% endfor %}
 <script src="https://code.jquery.com/jquery.js"></script>
 <script >
+		      
 
-	function dogAdded(){
-		console.log("Dog Added")
-	} 
+		function addDogToFavorites(evt){
+			var button_id = ("#" + this.id);
+			var shelter_id = $(button_id).data("shelter");
+			var adopted_status = $(button_id).data("status");
+			var age = $(button_id).data("age");
+			var breed = $(button_id).data("breed");
+			var img_url = $(button_id).data("url");
+    
+			form_data = {'petfinder_id': this.id, 
+									 'shelter': shelter_id, 
+									 'status': adopted_status, 
+									 'age': age, 
+									 'breed': breed, 
+									 'url': img_url};
+			// console.log($(button_id).data("shelter"))
+			// console.log($(button_id).data("status"))
+			// console.log($(button_id).data("age"))
+			// console.log($(button_id).data("breed"))
+			// console.log($(button_id).data("url"))
 
-	function addDogToFavorites(){
-		$.post('/favorites', dogAdded);
-	}
 
-	$('#favorite').on('click', addDogToFavorites); 
+		$.post('/favorites', form_data, addToFavoritesSuccess);
+
+		}
+
+		function addToFavoritesSuccess(result){
+
+			console.log("Dog Added")
+		} 
+
+
+	$('.favorite').on('click', addDogToFavorites); 
 	</script>
 
 </body>

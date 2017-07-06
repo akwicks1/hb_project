@@ -53,7 +53,7 @@ class Dog(db.Model):
 	shelter_id = db.Column(db.String(6), db.ForeignKey('shelters.shelter_id'))
 	adopted_status = db.Column(db.String(1))
 	img_url = db.Column(db.String(300))
-	age = db.Column(db.Integer)
+	age = db.Column(db.String(10))
 	breed = db.Column(db.String(50))
 
 	favorites = db.relationship("Favorite",
@@ -69,7 +69,7 @@ class Shelter(db.Model):
 	__tablename__ = "shelters"
 
 	shelter_id = db.Column(db.String(6), primary_key=True)
-	zipcode = db.Column(db.String(15)) 
+	zipcode = db.Column(db.String(15))
 	latitude = db.Column(db.String(12))
 	longitude = db.Column(db.String(13))
 

@@ -33,9 +33,9 @@ def print_dict(v, prefix=''):
     else:
         print('{} = {}'.format(prefix, repr(v)))
 
-pf_key=os.environ['PF_KEY'],
-pf_secret=os.environ['PF_SECRET']
-map_key=os.environ['MAP_KEY']
+pf_key=os.environ["PF_KEY"],
+pf_secret=os.environ["PF_SECRET"]
+map_key=os.environ["MAP_KEY"]
 
 @app.route('/')
 def index():
@@ -43,10 +43,14 @@ def index():
 
     breeds = requests.get('http://api.petfinder.com/breed.list?key=9ef528dbe181850f45ad491b29f0344a&animal=dog')
     breeds_dict = xmltodict.parse(breeds.text)
-    #Can pull from database/copy drop down into a file
 
-    # db.session.add(breeds_list)
+    # breed = Dog.query.filter_by(breed=breed).first()
+
+    # session["breed"] = Dog.breed
+
+    # db.session.add(breeds_dict)
     # db.session.commit()
+
     return render_template("homepage.html", breeds_dict=breeds_dict)
 
 @app.route('/map')
@@ -81,19 +85,28 @@ def search_results():
         shelter_id = animal_obj['shelterId']
         print time_updated
 
-
-
         shelter_payload = {'key': pf_key, 'id': shelter_id}
 
         shelter_location = requests.get('http://api.petfinder.com/shelter.get?', params=shelter_payload)
 
         shelter_dict = xmltodict.parse(shelter_location.text)
 
+        shelter_id = shelter_dict['petfinder']['shelter']['id']
+        zipcode = shelter_dict['petfinder']['shelter']['zip']
         latitude = shelter_dict['petfinder']['shelter']['latitude']
         longitude = shelter_dict['petfinder']['shelter']['longitude']
 
-        print "This is the latitude", latitude
-        print "This is the longitude", longitude
+        if shelter_id not in shelters.shelter_id: 
+
+            new_shelter = Shelter(shelter_id=shelter_id, zipcode=zipcode, latitude=latitude, longitude=longitude)
+           
+            db.session.add(new_shelter)
+            db.session.commit()
+
+        #TODO check if shelter is in db already if not add it.
+
+        # print "This is the latitude", latitude
+        # print "This is the longitude", longitude
     # return 'yes'
     return render_template("/results.html", animal_list=animal_list, time_updated=time_updated)
 
@@ -128,9 +141,19 @@ def add_to_favorite():
     ##make new favorite object
     user_id = session["user_id"]
     petfinder_id = request.form.get("petfinder_id")
-   
+    shelter_id = request.form.get("shelter")
+    adopted_status = request.form.get("status")
+    img_url = request.form.get("url")
+    breed = request.form.get("breed")
+    age = request.form.get("age")
+    ##TODO check that dog is not already in db
+    new_dog = Dog(petfinder_id=petfinder_id, shelter_id=shelter_id, adopted_status=adopted_status, img_url=img_url, age=age, breed=breed)
+
+    db.session.add(new_dog)
+    db.session.commit()
+
     fave_dog = Favorite(petfinder_id=petfinder_id, user_id=user_id)
-   
+
 
     db.session.add(fave_dog)
     db.session.commit()
@@ -214,11 +237,11 @@ def logout():
     return redirect("/")
 
 
-
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the point
     # that we invoke the DebugToolbarExtension
     app.debug = True
+    app.jinja_env.auto_reload = True
     app.config["TEMPLATES_AUTO_RELOAD"] = True
 
     connect_to_db(app)
