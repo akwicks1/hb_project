@@ -3,7 +3,8 @@ from jinja2 import StrictUndefined
 from flask import Flask, render_template, request, flash, redirect, session
 from flask_debugtoolbar import DebugToolbarExtension
 
-from model import connect_to_db, db, User, Favorite, Dog
+from model import connect_to_db, db, User, Favorite, Dog, Shelter
+from sqlalchemy import exists
 
 import datetime, dateutil.parser
 
@@ -96,10 +97,14 @@ def search_results():
         latitude = shelter_dict['petfinder']['shelter']['latitude']
         longitude = shelter_dict['petfinder']['shelter']['longitude']
 
-        if shelter_id not in shelters.shelter_id: 
+        # missing = Shelter.query.filter_by(shelter_id='shelter_id').first()
 
+        # if missing is None:
+        # ret = db.session.query(exists().where(Shelter.shelter_id == shelter_id)).scalar()
+        (ret, ), = db.session.query(exists().where(Shelter.shelter_id.in_(shelter_id)))
+        if (ret, ) is False:
+      
             new_shelter = Shelter(shelter_id=shelter_id, zipcode=zipcode, latitude=latitude, longitude=longitude)
-           
             db.session.add(new_shelter)
             db.session.commit()
 
