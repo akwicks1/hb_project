@@ -2,7 +2,12 @@
 <html>
 <head>
 	<h1>Result for a dog</h1>
-
+	<style>
+		#map {
+        height: 400px;
+        width: 100%;
+       }
+    </style>
 </head>
 	<body>
 		{% for animal_obj in animal_list %}
@@ -34,7 +39,23 @@
 
 		{% endfor %}
 <script src="https://code.jquery.com/jquery.js"></script>
-<script >
+	    <h3>My Google Maps Demo</h3>
+    <div id="map"></div>
+    <script>
+
+      function initMap() {
+        var myLatLng = {lat: {{latitude}}, lng: {{longitude }}}
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 4,
+          center: myLatLng
+        });
+        var marker = new google.maps.Marker({
+          position: myLatLng,
+          map: map
+        });
+      }
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXLQWeh2IN4-OgsSMoQYUIxURAgOUO5m4&callback=initMap">
 		      
 
 		function addDogToFavorites(evt){
@@ -51,12 +72,6 @@
 									 'age': age, 
 									 'breed': breed, 
 									 'url': img_url};
-			// console.log($(button_id).data("shelter"))
-			// console.log($(button_id).data("status"))
-			// console.log($(button_id).data("age"))
-			// console.log($(button_id).data("breed"))
-			// console.log($(button_id).data("url"))
-
 
 		$.post('/favorites', form_data, addToFavoritesSuccess);
 
@@ -69,6 +84,7 @@
 
 
 	$('.favorite').on('click', addDogToFavorites); 
+
 	</script>
 
 </body>

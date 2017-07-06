@@ -4,7 +4,6 @@ from flask import Flask, render_template, request, flash, redirect, session
 from flask_debugtoolbar import DebugToolbarExtension
 
 from model import connect_to_db, db, User, Favorite, Dog, Shelter
-from sqlalchemy import exists
 
 import datetime, dateutil.parser
 
@@ -96,24 +95,23 @@ def search_results():
         zipcode = shelter_dict['petfinder']['shelter']['zip']
         latitude = shelter_dict['petfinder']['shelter']['latitude']
         longitude = shelter_dict['petfinder']['shelter']['longitude']
+        latitude = float(latitude)
+        longitude = float(longitude)
 
-        # missing = Shelter.query.filter_by(shelter_id='shelter_id').first()
+        
 
-        # if missing is None:
-        # ret = db.session.query(exists().where(Shelter.shelter_id == shelter_id)).scalar()
-        (ret, ), = db.session.query(exists().where(Shelter.shelter_id.in_(shelter_id)))
-        if (ret, ) is False:
-      
+
+        #check if shelter exists
+        shelter_exists = Shelter.query.get(shelter_id)
+        #if shelter doesn't exist
+        if shelter_exists is None:
+            #add it to the database
             new_shelter = Shelter(shelter_id=shelter_id, zipcode=zipcode, latitude=latitude, longitude=longitude)
             db.session.add(new_shelter)
             db.session.commit()
 
-        #TODO check if shelter is in db already if not add it.
+    return render_template("/results.html", animal_list=animal_list, time_updated=time_updated, latitude=latitude, longitude=longitude)
 
-        # print "This is the latitude", latitude
-        # print "This is the longitude", longitude
-    # return 'yes'
-    return render_template("/results.html", animal_list=animal_list, time_updated=time_updated)
 
 @app.route('/randomresult')
 def show_random():
