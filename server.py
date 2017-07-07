@@ -81,11 +81,6 @@ def search_results():
 
     animal_list = animal_dict['petfinder']['pets']['pet']
 
-    multiple_breed = animal_dict['petfinder']['pets']['pet']
-
-    b1 = multiple_breed[0]
-    b2 = multiple_breed[1]
-
     for animal_obj in animal_list:
         last_update = animal_obj['lastUpdate']
         time_format = dateutil.parser.parse(last_update)
@@ -123,7 +118,7 @@ def search_results():
             db.session.add(new_shelter)
             db.session.commit()
 
-    return render_template("/results.html", animal_list=animal_list, time_updated=time_updated, latitude=latitude, longitude=longitude)
+    return render_template("/results.html", animal_list=animal_list, breed=breed, time_updated=time_updated, latitude=latitude, longitude=longitude)
 
 
 @app.route('/randomresult')
