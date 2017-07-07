@@ -1,19 +1,9 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <style>
-       #map {
-        height: 400px;
-        width: 100%;
-       }
-    </style>
-  </head>
-  <body>
-    <h3>My Google Maps Demo</h3>
+      <h3>My Google Maps Demo</h3>
     <div id="map"></div>
     <script>
+
       function initMap() {
-        var myLatLng = ['{{ latitude }}', '{{ longitude }}'];
+        var myLatLng = {lat: {{latitude}}, lng: {{longitude }} }
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 4,
           center: myLatLng
@@ -24,12 +14,8 @@
         });
       }
     </script>
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXLQWeh2IN4-OgsSMoQYUIxURAgOUO5m4&callback=initMap">
-    </script>
-  </body>
-</html>
-
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXLQWeh2IN4-OgsSMoQYUIxURAgOUO5m4&callback=initMap">
+          
 var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
   var marker = new google.maps.Marker({
     position: myLatLng,

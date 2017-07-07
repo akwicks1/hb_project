@@ -43,7 +43,10 @@ def index():
 
     breeds = requests.get('http://api.petfinder.com/breed.list?key=9ef528dbe181850f45ad491b29f0344a&animal=dog')
     breeds_dict = xmltodict.parse(breeds.text)
+    
 
+    for breed in breeds_dict:
+        print breed
     # breed = Dog.query.filter_by(breed=breed).first()
 
     # session["breed"] = Dog.breed
@@ -78,12 +81,23 @@ def search_results():
 
     animal_list = animal_dict['petfinder']['pets']['pet']
 
+    multiple_breed = animal_dict['petfinder']['pets']['pet']
+
+    b1 = multiple_breed[0]
+    b2 = multiple_breed[1]
+
     for animal_obj in animal_list:
         last_update = animal_obj['lastUpdate']
         time_format = dateutil.parser.parse(last_update)
         time_updated = time_format.strftime("%m-%d-%Y %H:%M:%S")
         shelter_id = animal_obj['shelterId']
-        print time_updated
+        breed = animal_obj['breeds']['breed']
+
+        if type(breed) == list:
+            s = ", "
+            breed = s.join(breed)
+
+            print breed
 
         shelter_payload = {'key': pf_key, 'id': shelter_id}
 
@@ -97,9 +111,8 @@ def search_results():
         longitude = shelter_dict['petfinder']['shelter']['longitude']
         latitude = float(latitude)
         longitude = float(longitude)
-
-        
-
+        # print latitude
+        # print longitude
 
         #check if shelter exists
         shelter_exists = Shelter.query.get(shelter_id)
@@ -161,7 +174,7 @@ def add_to_favorite():
     db.session.add(fave_dog)
     db.session.commit()
 
-    print "it worked."
+    return 'yay'
 
 @app.route('/register')
 def register_user():
@@ -228,7 +241,19 @@ def profile_page(user_id):
     """User's profile page."""
 
     user = User.query.get(user_id)
-    return render_template("profile_page.html", user=user)
+
+    dogs = [
+            {'id': 38550807,
+            'img_url': 'http://photos.petfinder.com/photos/pets/36471082/1/?bust=1476394404&width=95&-fpm.jpg',
+            'name': 'Abby'}]
+    all_favorites = user.favorites
+    fave_dogs = []
+    for fave in all_favorites:
+        fave_dogs.append(fave.dogs)
+
+
+
+    return render_template("profile_page.html", user=user, dogs=fave_dogs)
 
 @app.route('/logout')
 def logout():

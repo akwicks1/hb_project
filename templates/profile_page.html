@@ -3,7 +3,7 @@
 	<title>Profile Page</title>
 </head>
 <body>
-	<form action="/action_page.php">
+	<form action="/">
   First name:<br>
   <input type="text" name="firstname" value="{{ user.first_name }}"><br>
   Last name:<br>
@@ -16,5 +16,12 @@
   <input type="text" name="zip_code" value="{{ user.zip_code }}"><br>
   <input type="submit" value="Submit">
 </form>
+  {% for dog in dogs %}
+    
+    <img src={{ dog.img_url }}>
+    {{ dog.petfinder_id }}
+    {{ dog.age }}
+  {%endfor%}
+
 </body>
 </html>
