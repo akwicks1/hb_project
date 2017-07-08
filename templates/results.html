@@ -10,8 +10,10 @@
     </style>
 </head>
 	<body>
+
 		{% for animal_obj in animal_list %}
-				{{time_updated}}<br>
+				{{ animal_obj['lastUpdate'] }}<br>
+				{{ animal_obj['breeds']['breed'] }}<br>
 				{{ animal_obj['name'] }}<br>
 				{{ animal_obj['id'] }}<br>
 				{{ animal_obj['shelterId'] }}<br>
@@ -20,22 +22,26 @@
 				{{ animal_obj['status'] }}<br>
 				{{ animal_obj['age'] }}<br>
 				{{ animal_obj['mix'] }}<br>
-				{{ animal_obj['breeds']['breed'] }}<br>
 				{{ animal_obj['description'] }}<br>
 				{{ animal_obj['contact']['address1']}}
 				{{ animal_obj['contact']['address2']}}
 				{{ animal_obj['contact']['city'] }}
 				{{ animal_obj['contact']['state']}}
 				{{ animal_obj['contact']['zip']}}<br>
+				<br>
+				<br>
 			  <img src="{{ animal_obj['media']['photos']['photo'][3]['#text'] }}">
 
 				<button data-shelter="{{ animal_obj['shelterId'] }}" 
 								data-status="{{ animal_obj['status'] }}"
 								data-age="{{ animal_obj['age'] }}"
 								data-breed="{{ animal_obj['breeds']['breed'] }}"
+								data-name="{{ animal_obj['name'] }}"
 								data-url="{{ animal_obj['media']['photos']['photo'][3]['#text'] }}"
 								class="favorite" 
 								id="{{ animal_obj['id'] }}" type="button">Favorite Me!</button>
+				<br>
+				<br>
 
 		{% endfor %}
 <script src="https://code.jquery.com/jquery.js"></script>
@@ -47,13 +53,15 @@
 			var adopted_status = $(button_id).data("status");
 			var age = $(button_id).data("age");
 			var breed = $(button_id).data("breed");
+			var name = $(button_id).data("name")
 			var img_url = $(button_id).data("url");
     
 			form_data = {'petfinder_id': this.id, 
 									 'shelter': shelter_id, 
 									 'status': adopted_status, 
 									 'age': age, 
-									 'breed': breed, 
+									 'breed': breed,
+									 'name' : name,
 									 'url': img_url};
 
 		$.post('/favorites', form_data, addToFavoritesSuccess);
@@ -69,6 +77,8 @@
 	$('.favorite').on('click', addDogToFavorites); 
 
 	</script>
-
+  <form action="/">
+    <input type="submit" value="Homepage">
+  </form>
 </body>
 </html>

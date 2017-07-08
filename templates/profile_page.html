@@ -19,9 +19,14 @@
   {% for dog in dogs %}
     
     <img src={{ dog.img_url }}>
+    {{ dog.name }}
     {{ dog.petfinder_id }}
-    {{ dog.age }}
+    {{ dog.shelter_id }}
+
   {%endfor%}
 
+  <form action="/">
+    <input type="submit" value="Homepage">
+  </form>
 </body>
 </html>

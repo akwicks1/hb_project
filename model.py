@@ -51,6 +51,7 @@ class Dog(db.Model):
 
 	petfinder_id = db.Column(db.Integer, primary_key=True)
 	shelter_id = db.Column(db.String(6), db.ForeignKey('shelters.shelter_id'))
+	name = db.Column(db.String(20))
 	adopted_status = db.Column(db.String(1))
 	img_url = db.Column(db.String(300))
 	age = db.Column(db.String(10))

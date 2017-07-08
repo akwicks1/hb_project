@@ -45,8 +45,8 @@ def index():
     breeds_dict = xmltodict.parse(breeds.text)
     
 
-    for breed in breeds_dict:
-        print breed
+    # for breed in breeds_dict:
+    #     print breed
     # breed = Dog.query.filter_by(breed=breed).first()
 
     # session["breed"] = Dog.breed
@@ -61,6 +61,53 @@ def show_map():
     """Show map."""
 
     return render_template("sample_map.html")
+
+def fix_formating(animal_obj):
+    last_update = animal_obj['lastUpdate']
+    time_format = dateutil.parser.parse(last_update)
+    animal_obj['lastUpdate'] = time_format.strftime("%m-%d-%Y %H:%M:%S")
+
+    multiple_breeds = animal_obj['breeds']['breed']
+
+    if type(multiple_breeds) == list:
+        s = ", "
+        multiple_breeds = s.join(multiple_breeds)
+
+        animal_obj['breeds']['breed'] = multiple_breeds
+
+    #TODO if there is a description do this ELSE dont
+    description = animal_obj['description'] or ""
+    # print "description", type(description)
+    animal_obj['description'] = description.encode('ascii', 'ignore')
+    # print "ascii encoded description", description
+
+def adding_shelter(shelter_id):
+    shelter_payload = {'key': pf_key, 'id': shelter_id}
+
+    shelter_location = requests.get('http://api.petfinder.com/shelter.get?', params=shelter_payload)
+
+    shelter_dict = xmltodict.parse(shelter_location.text)
+
+    shelter_id = shelter_dict['petfinder']['shelter']['id']
+    zipcode = shelter_dict['petfinder']['shelter']['zip']
+    latitude = shelter_dict['petfinder']['shelter']['latitude']
+    longitude = shelter_dict['petfinder']['shelter']['longitude']
+    latitude = float(latitude)
+    longitude = float(longitude)
+    # print latitude
+    # print longitude
+
+    #check if shelter exists
+    shelter = Shelter.query.get(shelter_id)
+    #if shelter doesn't exist
+    if shelter is None:
+        #add it to the database
+        shelter = Shelter(shelter_id=shelter_id, zipcode=zipcode, latitude=latitude, longitude=longitude)
+        db.session.add(shelter)
+        db.session.commit()
+
+    return shelter
+
 
 @app.route('/results')
 def search_results():
@@ -80,45 +127,20 @@ def search_results():
     animal_dict = xmltodict.parse(animal_response.text.encode('utf-8'))
 
     animal_list = animal_dict['petfinder']['pets']['pet']
-
+    #IF ANY ATTRIBUTE OF THE ANIMAL_OBJ IS NONE: OMIT/" "/SOMETHING
     for animal_obj in animal_list:
-        last_update = animal_obj['lastUpdate']
-        time_format = dateutil.parser.parse(last_update)
-        time_updated = time_format.strftime("%m-%d-%Y %H:%M:%S")
+
+        fix_formating(animal_obj)
+
         shelter_id = animal_obj['shelterId']
-        breed = animal_obj['breeds']['breed']
 
-        if type(breed) == list:
-            s = ", "
-            breed = s.join(breed)
+        shelter = adding_shelter(shelter_id)
+        animal_obj['latitude'] = shelter.latitude
+        animal_obj['longitude'] = shelter.longitude
 
-            print breed
+        print animal_obj['latitude'], animal_obj['longitude']
 
-        shelter_payload = {'key': pf_key, 'id': shelter_id}
-
-        shelter_location = requests.get('http://api.petfinder.com/shelter.get?', params=shelter_payload)
-
-        shelter_dict = xmltodict.parse(shelter_location.text)
-
-        shelter_id = shelter_dict['petfinder']['shelter']['id']
-        zipcode = shelter_dict['petfinder']['shelter']['zip']
-        latitude = shelter_dict['petfinder']['shelter']['latitude']
-        longitude = shelter_dict['petfinder']['shelter']['longitude']
-        latitude = float(latitude)
-        longitude = float(longitude)
-        # print latitude
-        # print longitude
-
-        #check if shelter exists
-        shelter_exists = Shelter.query.get(shelter_id)
-        #if shelter doesn't exist
-        if shelter_exists is None:
-            #add it to the database
-            new_shelter = Shelter(shelter_id=shelter_id, zipcode=zipcode, latitude=latitude, longitude=longitude)
-            db.session.add(new_shelter)
-            db.session.commit()
-
-    return render_template("/results.html", animal_list=animal_list, breed=breed, time_updated=time_updated, latitude=latitude, longitude=longitude)
+    return render_template("/results.html", animal_list=animal_list)
 
 
 @app.route('/randomresult')
@@ -157,18 +179,33 @@ def add_to_favorite():
     img_url = request.form.get("url")
     breed = request.form.get("breed")
     age = request.form.get("age")
-    ##TODO check that dog is not already in db
-    new_dog = Dog(petfinder_id=petfinder_id, shelter_id=shelter_id, adopted_status=adopted_status, img_url=img_url, age=age, breed=breed)
+    name = request.form.get("name")
+    ##TODO check that user is logged in 
+    dog_exists_in_db = Dog.query.get(petfinder_id)
+        #if shelter doesn't exist
+    if dog_exists_in_db is None:
 
-    db.session.add(new_dog)
-    db.session.commit()
+        new_dog = Dog(petfinder_id=petfinder_id, shelter_id=shelter_id, adopted_status=adopted_status, img_url=img_url, age=age, breed=breed, name=name)
 
-    fave_dog = Favorite(petfinder_id=petfinder_id, user_id=user_id)
+        db.session.add(new_dog)
+        db.session.commit()
+
+        fave_dog = Favorite(petfinder_id=petfinder_id, user_id=user_id)
+
+        db.session.add(fave_dog)
+        db.session.commit()
+        print "if", fave_dog.fave_id
+        print petfinder_id
+    else:
+        fave_dog = Favorite(petfinder_id=petfinder_id, user_id=user_id)
+        
+        db.session.add(fave_dog)
+        db.session.commit()
+        print "else", fave_dog.fave_id
+        print petfinder_id
 
 
-    db.session.add(fave_dog)
-    db.session.commit()
-
+        #return jsonify () to change button to red
     return 'yay'
 
 @app.route('/register')
@@ -237,11 +274,8 @@ def profile_page(user_id):
 
     user = User.query.get(user_id)
 
-    dogs = [
-            {'id': 38550807,
-            'img_url': 'http://photos.petfinder.com/photos/pets/36471082/1/?bust=1476394404&width=95&-fpm.jpg',
-            'name': 'Abby'}]
     all_favorites = user.favorites
+
     fave_dogs = []
     for fave in all_favorites:
         fave_dogs.append(fave.dogs)
