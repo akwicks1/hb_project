@@ -80,6 +80,14 @@ def fix_formating(animal_obj):
     # print "description", type(description)
     animal_obj['description'] = description.encode('ascii', 'ignore')
     # print "ascii encoded description", description
+    if animal_obj['contact']['address1'] is None or animal_obj['contact']['address2'] is None:
+        animal_obj['contact']['address2'] = ""
+        animal_obj['contact']['address1'] = ""
+    # address1 = animal_obj['address1'] or ""
+    # animal_obj['address1'] = address1
+
+    # address2 = animal_obj['address2'] or ""
+    # animal_obj['address2'] = address2
 
 def adding_shelter(shelter_id):
     shelter_payload = {'key': pf_key, 'id': shelter_id}
@@ -118,7 +126,7 @@ def search_results():
     sex = request.args.get("sex")
     count = request.args.get("count")
 
-
+    status = "A"
     animal = "dog"
     payload = {'key': pf_key, 'animal': animal, 'count': count, 'location': location, 'sex': sex}
 

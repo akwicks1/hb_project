@@ -2,6 +2,7 @@
 <html>
 <head>
 	<h1>Result for a dog</h1>
+	<h4>All dogs are available for adoption as of last update</h4>
 	<style>
 		#map {
         height: 400px;
@@ -12,18 +13,17 @@
 	<body>
 
 		{% for animal_obj in animal_list %}
-				{{ animal_obj['lastUpdate'] }}<br>
-				{{ animal_obj['breeds']['breed'] }}<br>
-				{{ animal_obj['name'] }}<br>
-				{{ animal_obj['id'] }}<br>
-				{{ animal_obj['shelterId'] }}<br>
-				{{ animal_obj['size'] }}<br>
-				{{ animal_obj['sex'] }}<br>
-				{{ animal_obj['status'] }}<br>
-				{{ animal_obj['age'] }}<br>
-				{{ animal_obj['mix'] }}<br>
-				{{ animal_obj['description'] }}<br>
-				{{ animal_obj['contact']['address1']}}
+				Last Update: {{ animal_obj['lastUpdate'] }}<br>
+				Breed: {{ animal_obj['breeds']['breed'] }}<br>
+				Name: {{ animal_obj['name'] }}<br>
+				Id: {{ animal_obj['id'] }}<br>
+				Shelter Id: {{ animal_obj['shelterId'] }}<br>
+				Size: {{ animal_obj['size'] }}<br>
+				Gender: {{ animal_obj['sex'] }}<br>
+				Age: {{ animal_obj['age'] }}<br>
+				Mix: {{ animal_obj['mix'] }}<br>
+				Description: {{ animal_obj['description'] }}<br>
+				Address: {{ animal_obj['contact']['address1']}}
 				{{ animal_obj['contact']['address2']}}
 				{{ animal_obj['contact']['city'] }}
 				{{ animal_obj['contact']['state']}}
