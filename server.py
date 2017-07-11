@@ -41,9 +41,19 @@ map_key=os.environ["MAP_KEY"]
 def index():
     """Homepage."""
 
+    # breeds_exists_in_db = Dog.query.get(breed)
+    # if breeds_exists_in_db is None:
+
     breeds = requests.get('http://api.petfinder.com/breed.list?key=9ef528dbe181850f45ad491b29f0344a&animal=dog')
     breeds_dict = xmltodict.parse(breeds.text)
-    
+
+        # for breed in breeds_dict['petfinder']['breeds']['breed']:
+
+            # db.session.add(breed)
+            # db.session.commit()
+
+
+
 
     # for breed in breeds_dict:
     #     print breed
@@ -62,7 +72,18 @@ def show_map():
 
     return render_template("sample_map.html")
 
+@app.route("/shelters/map.json", methods=['GET'])
+def shelters_map():
+    """Show map of shelters."""
+
+    shelters = Shelter.query.all()
+
+    return render_template("sample_map.html", shelters=shelters)
+
+
 def fix_formating(animal_obj):
+    """Fix formatting of results from API for multiple pets."""
+
     last_update = animal_obj['lastUpdate']
     time_format = dateutil.parser.parse(last_update)
     animal_obj['lastUpdate'] = time_format.strftime("%m-%d-%Y %H:%M:%S")
@@ -75,19 +96,13 @@ def fix_formating(animal_obj):
 
         animal_obj['breeds']['breed'] = multiple_breeds
 
-    #TODO if there is a description do this ELSE dont
     description = animal_obj['description'] or ""
-    # print "description", type(description)
     animal_obj['description'] = description.encode('ascii', 'ignore')
-    # print "ascii encoded description", description
+
     if animal_obj['contact']['address1'] is None or animal_obj['contact']['address2'] is None:
         animal_obj['contact']['address2'] = ""
         animal_obj['contact']['address1'] = ""
-    # address1 = animal_obj['address1'] or ""
-    # animal_obj['address1'] = address1
 
-    # address2 = animal_obj['address2'] or ""
-    # animal_obj['address2'] = address2
 
 def adding_shelter(shelter_id):
     shelter_payload = {'key': pf_key, 'id': shelter_id}
@@ -102,7 +117,7 @@ def adding_shelter(shelter_id):
     longitude = shelter_dict['petfinder']['shelter']['longitude']
     latitude = float(latitude)
     longitude = float(longitude)
-    # print latitude
+    # print  
     # print longitude
 
     #check if shelter exists
@@ -135,7 +150,11 @@ def search_results():
     animal_dict = xmltodict.parse(animal_response.text.encode('utf-8'))
 
     animal_list = animal_dict['petfinder']['pets']['pet']
-    #IF ANY ATTRIBUTE OF THE ANIMAL_OBJ IS NONE: OMIT/" "/SOMETHING
+
+    # for elem in animal_list:
+    #     if 'media' in elem is None:
+    #         animal_list = animal_dict['petfinder']['pets']['pet']
+
     for animal_obj in animal_list:
 
         fix_formating(animal_obj)
@@ -159,6 +178,7 @@ def show_random():
     age = request.args.get("age")
     sex = request.args.get("sex")
 
+    status = "A"
     output = "full"
     animal = "dog"
     count = 1
@@ -175,6 +195,8 @@ def show_random():
 
 
     return render_template('random_result.html', animal_dict=animal_dict, time_updated=time_updated)
+
+@app.route('/map.json')
 
 @app.route('/favorites', methods=['POST'])
 def add_to_favorite():

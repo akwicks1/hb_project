@@ -1,30 +1,28 @@
-      <h3>My Google Maps Demo</h3>
+  <!DOCTYPE html>
+<html>
+  <head>
+    <!-- This stylesheet contains specific styles for displaying the map
+         on this page. Replace it with your own styles as described in the
+         documentation:
+         https://developers.google.com/maps/documentation/javascript/tutorial -->
+      <style type="text/css">
+    html, body { height: 100%; margin: 0; padding: 0; }
+    #map { height: 100%; }
+  </style>
+  </head>
+  <body>
     <div id="map"></div>
     <script>
-
       function initMap() {
-        var myLatLng = {lat: {{latitude}}, lng: {{longitude }} }
+        // Create a map object and specify the DOM element for display.
         var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 4,
-          center: myLatLng
-        });
-        var marker = new google.maps.Marker({
-          position: myLatLng,
-          map: map
+          center: {lat: -34.397, lng: 150.644},
+          scrollwheel: false,
+          zoom: 8
         });
       }
+
     </script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXLQWeh2IN4-OgsSMoQYUIxURAgOUO5m4&callback=initMap">
-          
-var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
-  var marker = new google.maps.Marker({
-    position: myLatLng,
-    map: map,
-    icon: iconBase + 'parking_lot_maps.png'
-  });
-
-  ['petfinder']['pets']['pet'][0]['media']['photos']['photo'][0]['#text'] = u'http://photos.petfinder.com/photos/pets/38626294/1/?bust=1498794396&width=60&-pnt.jpg'
-
-  ['petfinder']['pets']['pet'][0]['media']['photos']['photo'][0]['#text'] = u'http://photos.petfinder.com/photos/pets/<id>/<@id>/?bust=<bust>&width=60&-pnt.jpg'
-
-  <img src="{{ animal_obj['media']['photos']['photo'][3]['#text'] }}">
+  </body>
+</html> 
