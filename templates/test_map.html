@@ -6,12 +6,18 @@
         height: 400px;
         width: 100%;
        }
+       .window-content {
+        color: #04162b;
+        width: 150px;
+        }
     </style>
   </head>
   <body>
     <h3>My Google Maps Demo</h3>
     <div id="map"></div>
         <script src="https://code.jquery.com/jquery.js"></script>
+            <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXLQWeh2IN4-OgsSMoQYUIxURAgOUO5m4&callback=initMap">
+    </script>
 
     <script>
     "use strict";
@@ -25,32 +31,55 @@
           position: sf,
           map: map
         });
-      $.get('/shelters/map.json', function (shelters){
-        console.log(shelters);
-      
-        console.log(shelters);
-        var shelter, marker;
 
-        for (var key in shelters) {
-          shelter = shelters[key];
+        var infoWindow = new google.maps.InfoWindow({
+            width: 150
+        });
 
-          marker = new google.maps.Marker({
-            position: new google.maps.LatLng(shelter.latitude, shelter.longitude),
-            map: map,
-            title: 'Shelter ID: ' + shelter.shelter_id,
-            //some house icon
-          });
+        $.get('/shelters/map.json', function (shelters){
+          
+          var shelter, marker, html;
 
-        };
+          for (var key in shelters) {
+            shelter = shelters[key];
+            console.log(shelters[key]);
+            // console.log(shelter.shelter_id);
+            // console.log(shelter.zipcode);
+
+            marker = new google.maps.Marker({
+              position: new google.maps.LatLng(shelter.latitude, shelter.longitude),
+              map: map,
+              title: 'Shelter Info: ' + shelter.shelter_id,
+              icon: '/static/img/shelter.png'
+            });
+
+            html = (
+              '<div class="window-content>' +
+                '<img src="/static/img/shelter.png" alt="shelter" style="width:150px;" class="thumbnail">' +
+                '<p><b>Shelter ID: <b>' + shelter.shelter_id + '</p>' +
+                '<p><b>Shelter Zipcode: <b>' + shelter.zipcode + '</p>' +
+              '</div>');
+
+            bindInfoWindow(marker, map, infoWindow, html);
+
+          }
 
       });
 
-    };
+      function bindInfoWindow(marker, map, infoWindow, html) {
+        google.maps.event.addListener(marker, 'click', function () {
+          infoWindow.close();
+          infoWindow.setContent(html);
+          infoWindow.open(map, marker);
+        });
+      }
+    }
+
+    google.maps.event.addDomListener(window, 'load', initMap);
 
 
 
     </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXLQWeh2IN4-OgsSMoQYUIxURAgOUO5m4&callback=initMap">
-    </script>
+
   </body>
 </html>

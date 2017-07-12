@@ -82,11 +82,13 @@ def shelters_map():
     shelters = Shelter.query.all()
 
     for shelter in shelters:
+        shelter_id = str(shelter.shelter_id)
+        zipcode = str(shelter.zipcode)
         latitude = str(shelter.latitude)
         longitude = str(shelter.longitude)
         if (latitude != "None") and (longitude != "None"):
-            locations[shelter.shelter_id] = {'latitude': latitude, 'longitude': longitude}
-            
+            locations[shelter.shelter_id] = {'latitude': latitude, 'longitude': longitude, 'shelter_id': shelter_id, 'zipcode': zipcode}
+
 
     return jsonify(locations)
 
