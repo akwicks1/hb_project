@@ -1,6 +1,6 @@
 from jinja2 import StrictUndefined
 
-from flask import Flask, render_template, request, flash, redirect, session
+from flask import Flask, render_template, request, flash, redirect, session, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 
 from model import connect_to_db, db, User, Favorite, Dog, Shelter
@@ -70,15 +70,26 @@ def index():
 def show_map():
     """Show map."""
 
-    return render_template("sample_map.html")
+    shelters = Shelter.query.all()
+
+    return render_template("test_map.html", shelters=shelters)
 
 @app.route("/shelters/map.json", methods=['GET'])
 def shelters_map():
     """Show map of shelters."""
 
+    locations = {}
     shelters = Shelter.query.all()
 
-    return render_template("sample_map.html", shelters=shelters)
+    for shelter in shelters:
+        latitude = str(shelter.latitude)
+        longitude = str(shelter.longitude)
+        if (latitude != "None") and (longitude != "None"):
+            locations[shelter.shelter_id] = {'latitude': latitude, 'longitude': longitude}
+            
+
+    return jsonify(locations)
+
 
 
 def fix_formating(animal_obj):
@@ -196,7 +207,6 @@ def show_random():
 
     return render_template('random_result.html', animal_dict=animal_dict, time_updated=time_updated)
 
-@app.route('/map.json')
 
 @app.route('/favorites', methods=['POST'])
 def add_to_favorite():

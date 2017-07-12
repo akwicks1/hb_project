@@ -16,10 +16,7 @@ class User(db.Model):
     last_name = db.Column(db.String(20))
     zip_code = db.Column(db.String(15))
     phone_number = db.Column(db.String(10), nullable=True)
-
-    # favorites = db.relationship("Favorite",
-    # 							backref=db.backref("users"))
-
+    
     def __repr__(self):
         """Provide user's information."""
 
