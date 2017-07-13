@@ -66,33 +66,6 @@ def index():
 
     return render_template("homepage.html", breeds_dict=breeds_dict)
 
-@app.route('/map')
-def show_map():
-    """Show map."""
-
-    shelters = Shelter.query.all()
-
-    return render_template("test_map.html", shelters=shelters)
-
-@app.route("/shelters/map.json", methods=['GET'])
-def shelters_map():
-    """Show map of shelters."""
-
-    locations = {}
-    shelters = Shelter.query.all()
-
-    for shelter in shelters:
-        shelter_id = str(shelter.shelter_id)
-        zipcode = str(shelter.zipcode)
-        latitude = str(shelter.latitude)
-        longitude = str(shelter.longitude)
-        if (latitude != "None") and (longitude != "None"):
-            locations[shelter.shelter_id] = {'latitude': latitude, 'longitude': longitude, 'shelter_id': shelter_id, 'zipcode': zipcode}
-
-
-    return jsonify(locations)
-
-
 
 def fix_formating(animal_obj):
     """Fix formatting of results from API for multiple pets."""
@@ -180,7 +153,9 @@ def search_results():
 
         print animal_obj['latitude'], animal_obj['longitude']
 
-    return render_template("/results.html", animal_list=animal_list)
+    shelters = Shelter.query.all()
+
+    return render_template("/results.html", animal_list=animal_list, shelters=shelters)
 
 
 @app.route('/randomresult')
@@ -209,6 +184,31 @@ def show_random():
 
     return render_template('random_result.html', animal_dict=animal_dict, time_updated=time_updated)
 
+# @app.route('/map')
+# def show_map():
+#     """Show map."""
+
+#     shelters = Shelter.query.all()
+
+#     return render_template("test_map.html", shelters=shelters)
+
+@app.route("/shelters/map.json", methods=['GET'])
+def shelters_map():
+    """Show map of shelters."""
+
+    locations = {}
+    shelters = Shelter.query.all()
+
+    for shelter in shelters:
+        shelter_id = str(shelter.shelter_id)
+        zipcode = str(shelter.zipcode)
+        latitude = str(shelter.latitude)
+        longitude = str(shelter.longitude)
+        if (latitude != "None") and (longitude != "None"):
+            locations[shelter.shelter_id] = {'latitude': latitude, 'longitude': longitude, 'shelter_id': shelter_id, 'zipcode': zipcode}
+
+
+    return jsonify(locations)
 
 @app.route('/favorites', methods=['POST'])
 def add_to_favorite():
