@@ -16,6 +16,9 @@
 	<body>
 
 		{% for animal_obj in animal_list %}
+			{% if animal_obj.get('media') %}
+
+
 				Last Update: {{ animal_obj['lastUpdate'] }}<br>
 				Breed: {{ animal_obj['breeds']['breed'] }}<br>
 				Name: {{ animal_obj['name'] }}<br>
@@ -45,7 +48,7 @@
 								id="{{ animal_obj['id'] }}" type="button">Favorite Me!</button>
 				<br>
 				<br>
-
+			{% endif %}
 		{% endfor %}
 <script src="https://code.jquery.com/jquery.js"></script>
 
@@ -121,7 +124,15 @@
             width: 150
         });
 
-        $.get('/shelters/map.json', function (shelters){
+        var shelterResults = []
+        $('.favorite').each(function() { shelterResults.push($(this).data('shelter'))} );
+
+        	var shelter_ids = {
+        		'list_of_shelters': shelterResults
+        	}
+
+        $.get('/shelter-results.json', shelter_ids, function(shelters) {
+        	console.log(shelters);
           
           var shelter, marker, html;
 

@@ -192,23 +192,30 @@ def show_random():
 
 #     return render_template("test_map.html", shelters=shelters)
 
-@app.route("/shelters/map.json", methods=['GET'])
-def shelters_map():
-    """Show map of shelters."""
+@app.route("/shelter-results.json", methods=['GET'])
+def shelter_results():
+    """Shelters from results."""
 
     locations = {}
-    shelters = Shelter.query.all()
+    shelter_ids = request.args.getlist("list_of_shelters[]")
+    shelters = []
+
+    for shelter_id in shelter_ids:
+        s = Shelter.query.filter_by(shelter_id=shelter_id).first()
+        shelters.append(s)
 
     for shelter in shelters:
-        shelter_id = str(shelter.shelter_id)
         zipcode = str(shelter.zipcode)
         latitude = str(shelter.latitude)
         longitude = str(shelter.longitude)
+        s_id = str(shelter.shelter_id)
         if (latitude != "None") and (longitude != "None"):
-            locations[shelter.shelter_id] = {'latitude': latitude, 'longitude': longitude, 'shelter_id': shelter_id, 'zipcode': zipcode}
-
-
+            locations[shelter.shelter_id] = {'latitude': latitude, 'longitude': longitude, 'shelter_id': s_id, 'zipcode': zipcode}
+    
+    print 'locations', locations
+    print 'shelters', shelters
     return jsonify(locations)
+
 
 @app.route('/favorites', methods=['POST'])
 def add_to_favorite():
