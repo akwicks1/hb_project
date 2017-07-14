@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<head>
+	<title>Dog by breed</title>
+</head>
+	<h1>List of shelters with {{ breed }}</h1>
+<body>
+
+	{% for shelter_obj in shelter_breed_list %}
+
+
+		Shelter Id: {{ shelter_obj['id'] }}<br>
+		Name: {{ shelter_obj['name'] }} <br>
+		Address: {{ shelter_obj['address1'] }} <br>
+		{{ shelter_obj['address2'] }} 
+		{{ shelter_obj['city'] }} 
+		{{ shelter_obj['state'] }} 
+		{{ shelter_obj['zip'] }}
+		{{ shelter_obj['country'] }} <br>
+		Phone: {{ shelter_obj['phone'] }} <br>
+		Email: {{ shelter_obj['email'] }} <br>
+    <br>
+
+	{% endfor %}
+
+  {% for shelter_obj in shelter_breed_list %}
+
+
+    <div class="latlng" data-lat="{{ shelter_obj['latitude'] }}"data-lng="{{ shelter_obj['longitude'] }}">
+    </div>
+
+  {% endfor %}
+
+<html>
+  <head>
+    <style>
+       #map {
+        height: 400px;
+        width: 100%;
+       }
+       .window-content {
+        color: #04162b;
+        width: 150px;
+        }
+    </style>
+  </head>
+  <body>
+    <h3>Shelter Map</h3>
+    <div id="map"></div>
+    <script src="https://code.jquery.com/jquery.js"></script>
+          <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXLQWeh2IN4-OgsSMoQYUIxURAgOUO5m4&callback=initMap">
+    </script>
+
+    <script>
+    "use strict";
+      function initMap() {
+        var sf = {lat: 37.7749, lng: -122.4194};
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 4,
+          center: sf
+        });
+        var marker = new google.maps.Marker({
+          position: sf,
+          map: map
+        });
+
+        var infoWindow = new google.maps.InfoWindow({
+            width: 150
+        });
+
+        var latList = []
+        $('.latlng').each(function() { latList.push($(this).data('lat'))} );
+        console.log(latList)
+
+        var lngList = []
+        $('.latlng').each(function() { lngList.push($(this).data('lng'))} );
+        console.log(lngList)
+
+
+
+        for (var i = 0; i < latList.length; i ++){
+            var lat = latList[i]; var lng = lngList[i];
+            //if both lists are same length only need to loop over one of them
+        console.log(lat, lng)
+        
+
+          var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(lat, lng),
+            map: map,
+            title: 'xyz',
+            icon: '/static/img/shelter.png'
+            });
+
+        }
+
+        // html = (
+        //       '<div class="window-content>' +
+        //         '<img src="/static/img/shelter.png" alt="shelter" style="width:150px;" class="thumbnail">' +
+        //         '<p><b>Shelter ID: <b>' + shelter.shelter_id + '</p>' +
+        //         '<p><b>Shelter Zipcode: <b>' + shelter.zipcode + '</p>' +
+        //       '</div>');
+          // })
+
+        
+      }
+    </script>
+</body>
+</html>
