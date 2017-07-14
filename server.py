@@ -180,7 +180,7 @@ def show_dog_by_breed():
 
         if shelter_obj['address1'] is None or shelter_obj['address2'] is None:
             shelter_obj['address2'] = ""
-            shelter_obj['address1'] = ""
+            shelter_obj['address1'] = "N/A"
 
 
 
@@ -277,13 +277,16 @@ def add_to_favorite():
 
         db.session.add(fave_dog)
         db.session.commit()
-        print "if", fave_dog.fave_id
-        print petfinder_id
 
+    else:
 
+        db.session.delete(fave_dog)
+        db.session.commit()
+        # print "if", fave_dog.fave_id
+        # print petfinder_id
 
-        #return jsonify () to change button to red
-    return 'yay'
+    response = {'status': "success", 'id': petfinder_id}
+    return jsonify(response)
 
 @app.route('/register')
 def register_user():

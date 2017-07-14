@@ -53,38 +53,41 @@
 <script src="https://code.jquery.com/jquery.js"></script>
 
     <script>
-		function addDogToFavorites(evt){
-			var button_id = ("#" + this.id);
-			var shelter_id = $(button_id).data("shelter");
-			var adopted_status = $(button_id).data("status");
-			var age = $(button_id).data("age");
-			var breed = $(button_id).data("breed");
-			var name = $(button_id).data("name")
-			var img_url = $(button_id).data("url");
-    
-			form_data = {'petfinder_id': this.id, 
-									 'shelter': shelter_id, 
-									 'status': adopted_status, 
-									 'age': age, 
-									 'breed': breed,
-									 'name' : name,
-									 'url': img_url};
+    $(function () {
 
-		$.post('/favorites', form_data, addToFavoritesSuccess);
+			function addDogToFavorites(evt){
+				var button_id = ("#" + this.id);
+				var shelter_id = $(button_id).data("shelter");
+				var adopted_status = $(button_id).data("status");
+				var age = $(button_id).data("age");
+				var breed = $(button_id).data("breed");
+				var name = $(button_id).data("name")
+				var img_url = $(button_id).data("url");
+	    
+				form_data = {'petfinder_id': this.id, 
+										 'shelter': shelter_id, 
+										 'status': adopted_status, 
+										 'age': age, 
+										 'breed': breed,
+										 'name' : name,
+										 'url': img_url};
 
-		}
+			$.post('/favorites', form_data, addToFavoritesSuccess);
 
-		function addToFavoritesSuccess(result){
+			}
 
-			console.log("Dog Added")
-			var id = result.id;
+			function addToFavoritesSuccess(result){
 
-			$("#" + id).css('color', 'red')
-		} 
+				console.log(result.status)
+				var id = result.id;
+
+				$("#" + id).css('color', 'red')
+			} 
 
 
-	$('.favorite').on('click', addDogToFavorites); 
+		$('.favorite').on('click', addDogToFavorites); 
 
+	});
 	</script>
   <form action="/">
     <input type="submit" value="Homepage">
