@@ -127,7 +127,7 @@ def search_results():
     sex = request.args.get("sex")
     count = request.args.get("count")
 
-    status = "A"
+    status = "A"#pass in?
     animal = "dog"
     payload = {'key': pf_key, 'animal': animal, 'count': count, 'location': location, 'sex': sex}
 
@@ -156,6 +156,36 @@ def search_results():
     shelters = Shelter.query.all()
 
     return render_template("/results.html", animal_list=animal_list, shelters=shelters)
+
+
+
+@app.route('/dogbybreed')
+def show_dog_by_breed(): 
+
+
+    breed = request.args.get("breed")
+    animal = "dog"
+    by_breed = {'key': pf_key, 'animal': animal, 'breed': breed}
+
+    breed_response = requests.get('http://api.petfinder.com/shelter.listByBreed?', params=by_breed)
+    # print breed_response
+    by_breed_dict = xmltodict.parse(breed_response.text)
+    # print by_breed_dict
+    shelter_breed_list = by_breed_dict['petfinder']['shelters']['shelter']
+
+    for shelter_obj in shelter_breed_list:
+
+        latitude = shelter_obj['latitude']
+        longitude = shelter_obj['longitude']
+
+        if shelter_obj['address1'] is None or shelter_obj['address2'] is None:
+            shelter_obj['address2'] = ""
+            shelter_obj['address1'] = ""
+
+
+
+    return render_template('/dog_by_breed.html', shelter_breed_list=shelter_breed_list, breed=breed)
+
 
 
 @app.route('/randomresult')
@@ -211,7 +241,7 @@ def shelter_results():
         s_id = str(shelter.shelter_id)
         if (latitude != "None") and (longitude != "None"):
             locations[shelter.shelter_id] = {'latitude': latitude, 'longitude': longitude, 'shelter_id': s_id, 'zipcode': zipcode}
-    
+
     print 'locations', locations
     print 'shelters', shelters
     return jsonify(locations)
@@ -239,19 +269,17 @@ def add_to_favorite():
         db.session.add(new_dog)
         db.session.commit()
 
+    fave_exists_in_db = Favorite.query.filter_by(petfinder_id=petfinder_id, user_id=user_id).first()
+
+    if fave_exists_in_db is None:
+
         fave_dog = Favorite(petfinder_id=petfinder_id, user_id=user_id)
 
         db.session.add(fave_dog)
         db.session.commit()
         print "if", fave_dog.fave_id
         print petfinder_id
-    else:
-        fave_dog = Favorite(petfinder_id=petfinder_id, user_id=user_id)
-        
-        db.session.add(fave_dog)
-        db.session.commit()
-        print "else", fave_dog.fave_id
-        print petfinder_id
+
 
 
         #return jsonify () to change button to red

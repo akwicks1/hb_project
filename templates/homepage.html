@@ -48,10 +48,23 @@
 		<select name="sex">
 	  	<option value="M">Male</option>
 	  	<option value="F">Female</option>
-		</select>
-	  <type="submit" value="Submit">
-
+	  </select>
+	  	<input type="submit" value="Submit">
 	</form>
+
+	<h1>Dog by breed</h1>
+	<form action="/dogbybreed" method="GET">
+		<select name="breed">
+			{% for breed in breeds_dict['petfinder']['breeds']['breed'] %}
+      	<option value = "{{ breed }}">{{ breed }}</option>
+    		{% endfor %}
+    	Count 
+   		<input type="checkbox" name="count" value="5"> 5<br>
+   		<input type="checkbox" name="count" value="10"> 10<br>
+   		<input type="checkbox" name="count" value="25"> 25<br>
+   	</select>
+   		<input type="submit" value="Submit">
+   </form>
 
 	<form action="/login">
 		<input type="submit" value="Login">
