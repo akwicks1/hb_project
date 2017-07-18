@@ -11,6 +11,8 @@ import json
 import requests
 import xmltodict
 import os
+from helper_funcs import find_labels, find_datasets
+
 
 app = Flask(__name__)
 
@@ -122,6 +124,8 @@ def adding_shelter(shelter_id):
 def search_results():
     """Search for the get request pet.find."""
 
+
+    #### MALE OR FEMALE
     location = request.args.get("location")
     age = request.args.get("age")
     sex = request.args.get("sex")
@@ -246,6 +250,38 @@ def shelter_results():
     print 'shelters', shelters
     return jsonify(locations)
 
+@app.route('/breedchart')
+def breed_chart():
+    """Display Breed Chart."""
+
+    return render_template("breed_chart.html")
+
+
+@app.route('/breed-info.json', methods=['GET'])
+def breed_chart_data():
+
+    breed_labels = find_labels('breeds.csv')
+    breed_datasets = find_datasets('breeds.csv')
+
+    data_dict = {
+                "labels": breed_labels,
+                "datasets": [
+                    {
+                        "data": breed_datasets,
+                        "backgroundColor": [
+                            "#FF6384",
+                            "#36A2EB",
+                        ],
+                        "hoverBackgroundColor": [
+                            "#FF6384",
+                            "#36A2EB",
+                        ]
+                    }]
+                }
+
+    return jsonify(data_dict)
+    
+  
 
 @app.route('/favorites', methods=['POST'])
 def add_to_favorite():
