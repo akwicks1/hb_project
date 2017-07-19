@@ -144,25 +144,28 @@ def show_dog_by_breed():
     breed_response = requests.get('http://api.petfinder.com/shelter.listByBreed?', params=by_breed)
     # print breed_response
     by_breed_dict = xmltodict.parse(breed_response.text)
-    # print by_breed_dict
+    print by_breed_dict
     shelter_breed_list = by_breed_dict['petfinder']['shelters']['shelter']
 
     for shelter_obj in shelter_breed_list:
 
+        shelter_id = shelter_obj['id']
+        zipcode = shelter_obj['zip']
         latitude = shelter_obj['latitude']
         longitude = shelter_obj['longitude']
+        name = shelter_obj['name']
 
         if shelter_obj['address1'] is None or shelter_obj['address2'] is None:
             shelter_obj['address2'] = ""
             shelter_obj['address1'] = "N/A"
 
-    # shelter = Shelter.query.get(shelter_id)
-    # #if shelter doesn't exist
-    # if shelter is None:
-    #     #add it to the database WITH NAME
-    #     shelter = Shelter(shelter_id=shelter_id, zipcode=zipcode, latitude=latitude, longitude=longitude, name=name)
-    #     db.session.add(shelter)
-    #     db.session.commit()
+    shelter = Shelter.query.get(shelter_id)
+    #if shelter doesn't exist
+    if shelter is None:
+        #add it to the database WITH NAME
+        shelter = Shelter(shelter_id=shelter_id, zipcode=zipcode, latitude=latitude, longitude=longitude, name=name)
+        db.session.add(shelter)
+        db.session.commit()
 
     return render_template('/dog_by_breed.html', shelter_breed_list=shelter_breed_list, breed=breed)
 
