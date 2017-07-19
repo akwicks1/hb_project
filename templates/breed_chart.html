@@ -3,7 +3,7 @@
     <title>Breed Chart</title>
 </head>
 <body>
-  <div class="breed-chart">
+<div class="breed-chart">
   <canvas id="barChart"></canvas>
   <div id="barLegend" class="chart-legend"></div>
 <div>
@@ -27,6 +27,13 @@
         $('#barLegend').html(myBarChart.generateLegend());
     });
 
+
 </script>
+<div>
+  {% for breed in breeds %}
+    <a href="{{ url_for('breed_details', breed=breed.breed) }}" </a>
+    <img src="{{ breed.img_url }}">
+  {% endfor %}
+</div>
 </body>
 </html>

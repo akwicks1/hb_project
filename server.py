@@ -3,7 +3,7 @@ from jinja2 import StrictUndefined
 from flask import Flask, render_template, request, flash, redirect, session, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 
-from model import connect_to_db, db, User, Favorite, Dog, Shelter
+from model import connect_to_db, db, User, Favorite, Dog, Shelter, Breed
 
 import datetime, dateutil.parser
 
@@ -28,38 +28,12 @@ map_key=os.environ["MAP_KEY"]
 def index():
     """Homepage."""
 
-    # # breeds_exists_in_db = Dog.query.get(breed)
-    # # if breeds_exists_in_db is None:
+    all_breeds = db.session.query(Breed.breed).all()#always endup with a tuple
+    breed_list = []
+    for breed in all_breeds:
+        breed_list.append(breed[0])
 
-    breeds = requests.get('http://api.petfinder.com/breed.list?key=9ef528dbe181850f45ad491b29f0344a&animal=dog')
-    breeds_dict = xmltodict.parse(breeds.text)
-
-    #     # for breed in breeds_dict['petfinder']['breeds']['breed']:
-
-    #         # db.session.add(breed)
-    #         # db.session.commit()
-    # db_breeds = breeds_into_db('breeds_db.csv')
-
-    # breeds_exists_in_db = Breed.query.get(breed)
-
-    # if breeds_exists_in_db is None:
-    #     for breed in db_breeds:
-
-    #         db.session.add(breed)
-    #         db.session.commit()
-
-    #QUERY FOR BREED NAMES
-
-    # for breed in breeds_dict:
-    #     print breed
-    # breed = Dog.query.filter_by(breed=breed).first()
-
-    # session["breed"] = Dog.breed
-
-    # db.session.add(breeds_dict)
-    # db.session.commit()
-
-    return render_template("homepage.html", breeds_dict=breeds_dict)
+    return render_template("homepage.html", breed_list=breed_list)
 
 
 def fix_formating(animal_obj):
@@ -98,8 +72,6 @@ def adding_shelter(shelter_id):
     longitude = shelter_dict['petfinder']['shelter']['longitude']
     latitude = float(latitude)
     longitude = float(longitude)
-    # print  
-    # print longitude
 
     #check if shelter exists
     shelter = Shelter.query.get(shelter_id)
@@ -258,8 +230,17 @@ def shelter_results():
 def breed_chart():
     """Display Breed Chart."""
 
-    return render_template("breed_chart.html")
+    breeds = Breed.query.filter(Breed.description != None).all()
 
+    return render_template("breed_chart.html", breeds=breeds)
+
+@app.route("/breeds/<breed>")
+def breed_details(breed):
+    """Dog breed detail page."""
+    #ADD LOGIC TO NOT LET USER TYPE IN A BREED THAT DOESNT HAVE A DESCRIPTION
+    breed = Breed.query.filter(Breed.description != None, Breed.breed == breed).first()
+ 
+    return render_template("breed_description.html", breed=breed)
 
 @app.route('/breed-info.json', methods=['GET'])
 def breed_chart_data():
@@ -290,7 +271,7 @@ def breed_chart_data():
 @app.route('/favorites', methods=['POST'])
 def add_to_favorite():
     """Adds dog to favorites."""
-    ##make new favorite object
+
     user_id = session["user_id"]
     petfinder_id = request.form.get("petfinder_id")
     shelter_id = request.form.get("shelter")
@@ -301,7 +282,7 @@ def add_to_favorite():
     name = request.form.get("name")
     ##TODO check that user is logged in 
     dog_exists_in_db = Dog.query.get(petfinder_id)
-        #if shelter doesn't exist
+
     if dog_exists_in_db is None:
 
         new_dog = Dog(petfinder_id=petfinder_id, shelter_id=shelter_id, adopted_status=adopted_status, img_url=img_url, age=age, breed=breed, name=name)
@@ -331,19 +312,6 @@ def add_to_favorite():
     
     return jsonify(response)
 
-# @app.route('/favorites/remove', methods=['POST'])
-# def remove_from_favorites():
-#     """Removes dog from favorites."""
-
-#     user_id = session["user_id"]
-#     petfinder_id = request.form.get("petfinder_id")
-
-#     remove_fave_dog = Favorite.query.filter_by(user_id=user_id, petfinder_id=petfinder_id).one()
-
-    
-
-    
-#     return jsonify(response)
 
 @app.route('/register')
 def register_user():

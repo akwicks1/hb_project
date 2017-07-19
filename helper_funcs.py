@@ -1,4 +1,6 @@
 def find_labels(filename):
+	"""List of breeds for breed chart."""
+
 	label_list = []
 	with open(filename, 'r+') as f:
 		lines = f.readlines()
@@ -8,14 +10,14 @@ def find_labels(filename):
 			if int(line[1]) > 1000:
 				labels = line[0]
 				label_list.append(labels)
-		print label_list
-		print len(label_list)
 		return label_list
 
 
 find_labels('breeds.csv')
 
 def find_datasets(filename):
+	"""Count of breeds for breed chart."""
+
 	dataset_list = []
 	with open(filename, 'r+') as f:
 		lines = f.readlines()
@@ -29,6 +31,3 @@ def find_datasets(filename):
 			
 
 find_datasets('breeds.csv')
-
-
-

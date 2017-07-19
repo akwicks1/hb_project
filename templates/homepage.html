@@ -23,7 +23,7 @@
 		</select>
 		Breed
 		<select name="breed">
-			{% for breed in breeds_dict['petfinder']['breeds']['breed'] %}
+			{% for breed in breed_list %}
       	<option value = "{{ breed }}">{{ breed }}</option>
     		{% endfor %}
    		</select>
@@ -55,7 +55,7 @@
 	<h1>Dog by breed</h1>
 	<form action="/dogbybreed" method="GET">
 		<select name="breed">
-			{% for breed in breeds_dict['petfinder']['breeds']['breed'] %}
+			{% for breed in breed_list %}
       	<option value = "{{ breed }}">{{ breed }}</option>
     		{% endfor %}
     	Count 
