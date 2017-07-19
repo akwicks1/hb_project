@@ -70,7 +70,7 @@ class Shelter(db.Model):
 	zipcode = db.Column(db.String(15))
 	latitude = db.Column(db.String(12))
 	longitude = db.Column(db.String(13))
-	# name = db.Column(db.String(100))
+	name = db.Column(db.String(100), nullable=True)
 
 
 	dogs = db.relationship("Dog",
@@ -88,8 +88,13 @@ class Breed(db.Model):
 
 	breed_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
 	breed = db.Column(db.String(50))
-	description = db.Column(db.String(10000))
-	img_url = db.Column(db.String(300))
+	description = db.Column(db.String(10000), nullable=True)
+	img_url = db.Column(db.String(300), nullable=True)
+
+	def __repr__(self):
+		"""Provide breed details."""
+
+		return "<Breed_id breed_id=%s Breed breed=%s" % (self.breed_id, self.breed)
 
 
 ##############################################################################

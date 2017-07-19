@@ -11,29 +11,14 @@ import json
 import requests
 import xmltodict
 import os
-from helper_funcs import find_labels, find_datasets, breeds_into_db
-
+from helper_funcs import find_labels, find_datasets
 
 app = Flask(__name__)
 
-# Required to use Flask sessions and the debug toolbar
+
 app.secret_key = "ABC"
 
-# Normally, if you use an undefined variable in Jinja2, it fails silently.
-# This is horrible. Fix this so that, instead, it raises an error.
 app.jinja_env.undefined = StrictUndefined
-
-def print_dict(v, prefix=''):
-    if isinstance(v, dict):
-        for k, v2 in v.items():
-            p2 = "{}['{}']".format(prefix, k)
-            print_dict(v2, p2)
-    elif isinstance(v, list):
-        for i, v2 in enumerate(v):
-            p2 = "{}[{}]".format(prefix, i)
-            print_dict(v2, p2)
-    else:
-        print('{} = {}'.format(prefix, repr(v)))
 
 pf_key=os.environ["PF_KEY"],
 pf_secret=os.environ["PF_SECRET"]
@@ -63,7 +48,7 @@ def index():
     #         db.session.add(breed)
     #         db.session.commit()
 
-
+    #QUERY FOR BREED NAMES
 
     # for breed in breeds_dict:
     #     print breed

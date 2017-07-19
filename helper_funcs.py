@@ -30,16 +30,5 @@ def find_datasets(filename):
 
 find_datasets('breeds.csv')
 
-def breeds_into_db(filename):
-	breeds_db_list = []
-	with open(filename, 'r+') as f:
-		lines = f.readlines()
-		for line in lines:
-			line = line.strip().split("\t")
-			breed = line[0]
-			breeds_db_list.append(breed)
-		return breeds_db_list
 
-			
 
-breeds_into_db('breeds_db.csv')
