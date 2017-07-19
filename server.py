@@ -11,7 +11,7 @@ import json
 import requests
 import xmltodict
 import os
-from helper_funcs import find_labels, find_datasets
+from helper_funcs import find_labels, find_datasets, breeds_into_db
 
 
 app = Flask(__name__)
@@ -53,7 +53,12 @@ def index():
 
             # db.session.add(breed)
             # db.session.commit()
+    # db_breeds = breeds_into_db('breeds_db.csv')
 
+    #     breeds_exists_in_db = Breed.query.get(breed)
+        
+    #     if breeds_exists_in_db is None:
+    #         for breed in db_breeds:
 
 
 
@@ -141,9 +146,7 @@ def search_results():
 
     animal_list = animal_dict['petfinder']['pets']['pet']
 
-    # for elem in animal_list:
-    #     if 'media' in elem is None:
-    #         animal_list = animal_dict['petfinder']['pets']['pet']
+    user_id = session['user_id']
 
     for animal_obj in animal_list:
 
@@ -155,7 +158,14 @@ def search_results():
         animal_obj['latitude'] = shelter.latitude
         animal_obj['longitude'] = shelter.longitude
 
-        print animal_obj['latitude'], animal_obj['longitude']
+        petfinder_id = animal_obj['id']
+
+        favorited_before = Favorite.query.filter_by(petfinder_id=petfinder_id, user_id=user_id).first()
+
+        if favorited_before is not None:
+            animal_obj['favorited_before'] = True
+        else:
+            animal_obj['favorited_before'] = False
 
     shelters = Shelter.query.all()
 
@@ -314,15 +324,32 @@ def add_to_favorite():
         db.session.add(fave_dog)
         db.session.commit()
 
+        response = {'status': "success", 'id': petfinder_id}
+
     else:
+        remove_fave_dog = Favorite.query.filter_by(user_id=user_id, petfinder_id=petfinder_id).one()
 
-        db.session.delete(fave_dog)
+        db.session.delete(remove_fave_dog)
         db.session.commit()
-        # print "if", fave_dog.fave_id
-        # print petfinder_id
 
-    response = {'status': "success", 'id': petfinder_id}
+    
+        response = {'status': "successfully removed", 'id': petfinder_id}
+    
     return jsonify(response)
+
+# @app.route('/favorites/remove', methods=['POST'])
+# def remove_from_favorites():
+#     """Removes dog from favorites."""
+
+#     user_id = session["user_id"]
+#     petfinder_id = request.form.get("petfinder_id")
+
+#     remove_fave_dog = Favorite.query.filter_by(user_id=user_id, petfinder_id=petfinder_id).one()
+
+    
+
+    
+#     return jsonify(response)
 
 @app.route('/register')
 def register_user():

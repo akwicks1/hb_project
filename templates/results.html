@@ -11,6 +11,10 @@
         height: 400px;
         width: 100%;
        }
+    .favorite {
+      color: red;
+    }
+
     </style>
 </head>
 	<body>
@@ -18,7 +22,7 @@
 		{% for animal_obj in animal_list %}
 			{% if animal_obj.get('media') %}
 
-
+        Favorited already: {{ session['user_id'] }}
 				Last Update: {{ animal_obj['lastUpdate'] }}<br>
 				Breed: {{ animal_obj['breeds']['breed'] }}<br>
 				Name: {{ animal_obj['name'] }}<br>
@@ -34,9 +38,14 @@
 				{{ animal_obj['contact']['city'] }}
 				{{ animal_obj['contact']['state']}}
 				{{ animal_obj['contact']['zip']}}<br>
+        
+        {{ animal_obj['favorited_before'] }}
 				<br>
 				<br>
+
 			  <img src="{{ animal_obj['media']['photos']['photo'][3]['#text'] }}">
+
+
 
 				<button data-shelter="{{ animal_obj['shelterId'] }}" 
 								data-status="{{ animal_obj['status'] }}"
@@ -44,8 +53,13 @@
 								data-breed="{{ animal_obj['breeds']['breed'] }}"
 								data-name="{{ animal_obj['name'] }}"
 								data-url="{{ animal_obj['media']['photos']['photo'][3]['#text'] }}"
-								class="favorite" 
-								id="{{ animal_obj['id'] }}" type="button">Favorite Me!</button>
+                id="{{ animal_obj['id'] }}" 
+                class="fave_btn 
+                {% if animal_obj['favorited_before'] %}
+                  favorite
+                  {% endif %}"
+                  type="button">Favorite Me!</button>
+                
 				<br>
 				<br>
 			{% endif %}
@@ -53,6 +67,7 @@
 <script src="https://code.jquery.com/jquery.js"></script>
 
     <script>
+    "use strict";
     $(function () {
 
 			function addDogToFavorites(evt){
@@ -64,7 +79,7 @@
 				var name = $(button_id).data("name")
 				var img_url = $(button_id).data("url");
 	    
-				form_data = {'petfinder_id': this.id, 
+				var form_data = {'petfinder_id': this.id, 
 										 'shelter': shelter_id, 
 										 'status': adopted_status, 
 										 'age': age, 
@@ -72,27 +87,67 @@
 										 'name' : name,
 										 'url': img_url};
 
-			$.post('/favorites', form_data, addToFavoritesSuccess);
+
+			$.post('/favorites', form_data, addRemoveFavoritesSuccess);
 
 			}
 
-			function addToFavoritesSuccess(result){
+			function addRemoveFavoritesSuccess(result){
 
-				console.log(result.status)
-				var id = result.id;
+				if (result.status === "success") {
 
-				$("#" + id).css('color', 'red')
+        var id = result.id;
+
+        $("#" + id).css('color', 'red');
+
+        } else {
+
+        var id = result.id;
+
+        $("#" + id).css('color', 'blue');
+
+        }
 			} 
 
+	    $('.fave_btn').on('click', addDogToFavorites); 
 
-		$('.favorite').on('click', addDogToFavorites); 
+     }); 
+    // $(function () {
 
-	// $(function) () {
-	
+    //   function RemoveDogFromFavorites(evt){
+    //     var button_id = ("#" + this.id);
+    //     var shelter_id = $(button_id).data("shelter");
+    //     var adopted_status = $(button_id).data("status");
+    //     var age = $(button_id).data("age");
+    //     var breed = $(button_id).data("breed");
+    //     var name = $(button_id).data("name")
+    //     var img_url = $(button_id).data("url");
+      
+    //     form_data = {'petfinder_id': this.id, 
+    //                  'shelter': shelter_id, 
+    //                  'status': adopted_status, 
+    //                  'age': age, 
+    //                  'breed': breed,
+    //                  'name' : name,
+    //                  'url': img_url};
 
-		//$('.favorite').on('dou')
 
-	});
+    //   $.post('favorites/remove', form_data, removeFromFavoritesSuccess);
+
+    //   }
+
+    //   function removeFromFavoritesSuccess(result){
+
+    //     console.log(result.status)
+    //     var id = result.id;
+
+    //     $("#" + id).css('color', 'blue')
+    //   } 
+
+
+    //   $('.favorite').on('click', RemoveDogFromFavorites); 
+
+    //  }); 
 	</script>
   <form action="/">
     <input type="submit" value="Homepage">
