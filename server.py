@@ -43,22 +43,25 @@ map_key=os.environ["MAP_KEY"]
 def index():
     """Homepage."""
 
-    # breeds_exists_in_db = Dog.query.get(breed)
-    # if breeds_exists_in_db is None:
+    # # breeds_exists_in_db = Dog.query.get(breed)
+    # # if breeds_exists_in_db is None:
 
     breeds = requests.get('http://api.petfinder.com/breed.list?key=9ef528dbe181850f45ad491b29f0344a&animal=dog')
     breeds_dict = xmltodict.parse(breeds.text)
 
-        # for breed in breeds_dict['petfinder']['breeds']['breed']:
+    #     # for breed in breeds_dict['petfinder']['breeds']['breed']:
 
-            # db.session.add(breed)
-            # db.session.commit()
+    #         # db.session.add(breed)
+    #         # db.session.commit()
     # db_breeds = breeds_into_db('breeds_db.csv')
 
-    #     breeds_exists_in_db = Breed.query.get(breed)
-        
-    #     if breeds_exists_in_db is None:
-    #         for breed in db_breeds:
+    # breeds_exists_in_db = Breed.query.get(breed)
+
+    # if breeds_exists_in_db is None:
+    #     for breed in db_breeds:
+
+    #         db.session.add(breed)
+    #         db.session.commit()
 
 
 
@@ -196,7 +199,13 @@ def show_dog_by_breed():
             shelter_obj['address2'] = ""
             shelter_obj['address1'] = "N/A"
 
-
+    # shelter = Shelter.query.get(shelter_id)
+    # #if shelter doesn't exist
+    # if shelter is None:
+    #     #add it to the database WITH NAME
+    #     shelter = Shelter(shelter_id=shelter_id, zipcode=zipcode, latitude=latitude, longitude=longitude, name=name)
+    #     db.session.add(shelter)
+    #     db.session.commit()
 
     return render_template('/dog_by_breed.html', shelter_breed_list=shelter_breed_list, breed=breed)
 

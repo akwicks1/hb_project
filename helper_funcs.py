@@ -38,7 +38,7 @@ def breeds_into_db(filename):
 			line = line.strip().split("\t")
 			breed = line[0]
 			breeds_db_list.append(breed)
-		print breeds_db_list
+		return breeds_db_list
 
 			
 

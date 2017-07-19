@@ -81,15 +81,15 @@ class Shelter(db.Model):
 
 		return "<Shelter shelter_id=%s Zipcode zipcode=%s" % (self.shelter_id, self.zipcode)
 
-# class Breed(db.Model):
-# 	"""Information about breeds."""
+class Breed(db.Model):
+	"""Information about breeds."""
 
-# 	__tablename__ = "breeds"
+	__tablename__ = "breeds"
 
-# 	breed_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-# 	breed = db.Column(db.String(50))
-# 	description = db.Column(db.String(10000))
-# 	img_url = db.Column(db.String(300))
+	breed_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+	breed = db.Column(db.String(50))
+	description = db.Column(db.String(10000))
+	img_url = db.Column(db.String(300))
 
 
 ##############################################################################
