@@ -32,7 +32,7 @@
 <div>
   {% for breed in breeds %}
     <a href="{{ url_for('breed_details', breed=breed.breed) }}" </a>
-    <img src="{{ breed.img_url }}">
+    <img src="{{ breed.img_url }}" alt="{{ breed.breed }}">
   {% endfor %}
 </div>
 </body>

@@ -18,9 +18,9 @@ def breed_with_description():
 		dog = Breed(breed=breed,
 					description=description,
 					img_url=img_url)
-
+		print "description", dog
 		db.session.add(dog)
-		db.session.commit()
+	
 
 
 def breeds_into_db():
@@ -34,9 +34,9 @@ def breeds_into_db():
 		dog = Breed(breed=breed,
 					description=None,
 					img_url=None)
-
+		print "dog", dog 
 		db.session.add(dog)
-		db.session.commit()
+		
 
 
 if __name__ == "__main__":
@@ -44,3 +44,4 @@ if __name__ == "__main__":
     db.create_all()
     breed_with_description()
     breeds_into_db()
+    db.session.commit()

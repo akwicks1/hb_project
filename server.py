@@ -108,6 +108,7 @@ def search_results():
 
     animal_list = animal_dict['petfinder']['pets']['pet']
 
+    #IF USER IS NOT LOGGED IN FLASH MESSAGE
     user_id = session['user_id']
 
     for animal_obj in animal_list:
@@ -171,7 +172,25 @@ def show_dog_by_breed():
 
     return render_template('/dog_by_breed.html', shelter_breed_list=shelter_breed_list, breed=breed)
 
+@app.route('/shelterpets')
+def show_pets_at_shelter():
+    """Show pets at a shelter."""
 
+    shelter_id = request.args.get("shelterid")
+
+    shelter_pets = {'key': pf_key, 'id': shelter_id}
+
+    shelter_animals = requests.get('http://api.petfinder.com/shelter.getPets?', params=shelter_pets)
+
+    shelter_animals_dict = xmltodict.parse(shelter_animals.text)
+
+    shelter_animals_list = shelter_animals_dict['petfinder']['pets']['pet']
+
+    for animal_obj in shelter_animals_list:
+
+        fix_formating(animal_obj)
+
+    return render_template("shelter_pets.html", shelter_animals_list=shelter_animals_list)
 
 @app.route('/randomresult')
 def show_random():
@@ -199,13 +218,6 @@ def show_random():
 
     return render_template('random_result.html', animal_dict=animal_dict, time_updated=time_updated)
 
-# @app.route('/map')
-# def show_map():
-#     """Show map."""
-
-#     shelters = Shelter.query.all()
-
-#     return render_template("test_map.html", shelters=shelters)
 
 @app.route("/shelter-results.json", methods=['GET'])
 def shelter_results():
@@ -359,7 +371,7 @@ def login_form():
 def login_process():
     """Process login."""
 
-    # Get form variables
+    
     email = request.form["email"]
     password = request.form["password"]
 

@@ -25,10 +25,18 @@
   {% for shelter_obj in shelter_breed_list %}
 
 
+
+
     <div class="latlng" data-lat="{{ shelter_obj['latitude'] }}"data-lng="{{ shelter_obj['longitude'] }}">
     </div>
 
   {% endfor %}
+  <h1>Animals by shelter id</h1>
+   <form action="/shelterpets" method="GET">
+    <input type="text" name="shelterid">
+    <br><br>
+    <input type="submit">     
+    </form>
 
 <html>
   <head>
