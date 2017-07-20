@@ -33,6 +33,8 @@ def index():
     for breed in all_breeds:
         breed_list.append(breed[0])
 
+    # breed_list = Breed.query.filter(Breed.description == None).all()
+
     return render_template("homepage.html", breed_list=breed_list)
 
 
@@ -142,9 +144,9 @@ def show_dog_by_breed():
     by_breed = {'key': pf_key, 'animal': animal, 'breed': breed}
 
     breed_response = requests.get('http://api.petfinder.com/shelter.listByBreed?', params=by_breed)
-    # print breed_response
+    
     by_breed_dict = xmltodict.parse(breed_response.text)
-    print by_breed_dict
+    
     shelter_breed_list = by_breed_dict['petfinder']['shelters']['shelter']
 
     for shelter_obj in shelter_breed_list:
@@ -159,13 +161,13 @@ def show_dog_by_breed():
             shelter_obj['address2'] = ""
             shelter_obj['address1'] = "N/A"
 
-    shelter = Shelter.query.get(shelter_id)
-    #if shelter doesn't exist
-    if shelter is None:
-        #add it to the database WITH NAME
-        shelter = Shelter(shelter_id=shelter_id, zipcode=zipcode, latitude=latitude, longitude=longitude, name=name)
-        db.session.add(shelter)
-        db.session.commit()
+        shelter = Shelter.query.get(shelter_id)
+        #if shelter doesn't exist
+        if shelter is None:
+            #add it to the database WITH NAME
+            shelter = Shelter(shelter_id=shelter_id, zipcode=zipcode, latitude=latitude, longitude=longitude, name=name)
+            db.session.add(shelter)
+            db.session.commit()
 
     return render_template('/dog_by_breed.html', shelter_breed_list=shelter_breed_list, breed=breed)
 
@@ -242,7 +244,7 @@ def breed_details(breed):
     """Dog breed detail page."""
     #ADD LOGIC TO NOT LET USER TYPE IN A BREED THAT DOESNT HAVE A DESCRIPTION
     breed = Breed.query.filter(Breed.description != None, Breed.breed == breed).first()
- 
+
     return render_template("breed_description.html", breed=breed)
 
 @app.route('/breed-info.json', methods=['GET'])
