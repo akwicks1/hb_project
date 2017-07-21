@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<html>
+<head>
+	<title>Pets in Shelter</title>
+</head>
+<body>
+
+
+	{% for animal_obj in shelter_animals_list %}
+		{% if animal_obj.get('media') %}
+
+			<img src="{{ animal_obj['media']['photos']['photo'][3]['#text'] }}"><br>
+    
+			Last Update: {{ animal_obj['lastUpdate'] }}<br>
+			Breed: {{ animal_obj['breeds']['breed'] }}<br>
+			Name: {{ animal_obj['name'] }}<br>
+			Id: {{ animal_obj['id'] }}<br>
+			Shelter Id: {{ animal_obj['shelterId'] }}<br>
+			Size: {{ animal_obj['size'] }}<br>
+			Gender: {{ animal_obj['sex'] }}<br>
+			Age: {{ animal_obj['age'] }}<br>
+			Mix: {{ animal_obj['mix'] }}<br>
+			Description: {{ animal_obj['description'] }}<br>
+			Address: {{ animal_obj['contact']['address1']}}
+			{{ animal_obj['contact']['address2']}}
+			{{ animal_obj['contact']['city'] }}
+			{{ animal_obj['contact']['state']}}
+			{{ animal_obj['contact']['zip']}}<br>
+    
+    
+			<br>
+			<br>
+
+		  
+{% endif %}
+{% endfor %}
+  <form action="/">
+    <input type="submit" value="Homepage">
+  </form>
+</body>
+</html>

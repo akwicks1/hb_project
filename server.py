@@ -96,11 +96,10 @@ def search_results():
     location = request.args.get("location")
     age = request.args.get("age")
     sex = request.args.get("sex")
-    count = request.args.get("count")
-
+    count = 10
     status = "A"#pass in?
     animal = "dog"
-    payload = {'key': pf_key, 'animal': animal, 'count': count, 'location': location, 'sex': sex}
+    payload = {'key': pf_key, 'animal': animal, 'count': count, 'location': location, 'sex': sex, 'status': status}
 
     animal_response = requests.get('http://api.petfinder.com/pet.find?', params=payload)
 
@@ -170,7 +169,7 @@ def show_dog_by_breed():
             db.session.add(shelter)
             db.session.commit()
 
-    return render_template('/dog_by_breed.html', shelter_breed_list=shelter_breed_list, breed=breed)
+    return render_template('/dog_by_breed.html', shelter_breed_list=shelter_breed_list, breed=breed, shelter_breed_list_json=json.dumps(shelter_breed_list))
 
 @app.route('/shelterpets')
 def show_pets_at_shelter():
@@ -179,6 +178,8 @@ def show_pets_at_shelter():
     shelter_id = request.args.get("shelterid")
 
     shelter_pets = {'key': pf_key, 'id': shelter_id}
+
+    #QUERY DB TO GET LAT LONG FOR SHELTER FROM DB IT SHOULD BE IN THERE.
 
     shelter_animals = requests.get('http://api.petfinder.com/shelter.getPets?', params=shelter_pets)
 
@@ -371,7 +372,7 @@ def login_form():
 def login_process():
     """Process login."""
 
-    
+
     email = request.form["email"]
     password = request.form["password"]
 

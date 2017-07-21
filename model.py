@@ -95,16 +95,51 @@ class Breed(db.Model):
 		"""Provide breed details."""
 
 		return "<Breed_id breed_id=%s Breed breed=%s" % (self.breed_id, self.breed)
+def example_data():
+    """Create some sample data."""
+
+    # In case this is run more than once, empty out existing data
+   
+    User.query.delete()
+    Favorite.query.delete()
+    Dog.query.delete()
+    Shelter.query.delete()
+    Breed.query.delete()
+
+
+    u1 = User(user_id='1', email='abby@gmail.com', password='abc123')
+    u2 = User(user_id='2', email='mimi@gmail.com', password='def456')
+    u3 = User(user_id='3', email='brie@gmail.com', password='ghi789')
+
+    abby = Favorite(fave_id='34', user_id='1', petfinder_id='12345')
+    mimi = Favorite(fave_id='23', user_id='2', petfinder_id='65390')
+    brie = Favorite(fave_id='54', user_id='3', petfinder_id='83567')
+
+    honey = Dog(petfinder_id='12345', shelter_id='CA3452')
+    margo = Dog(petfinder_id='65390', shelter_id='WA41')
+    louise = Dog(petfinder_id='83567', shelter_id='CA1212')
+
+    sh1 = Shelter(shelter_id='CA3452', zipcode='94108')
+    sh2 = Shelter(shelter_id='WA41', zipcode='98383')
+    sh3 = Shelter(shelter_id='CA1212', zipcode='90210')
+
+    cav = Breed(breed_id='1', breed='Cavalier King Charles Spaniel')
+    lab = Breed(breed_id='2', breed='Labrador Retriever')
+    pug = Breed(breed_id='3', breed='Pug')
+
+    db.session.add_all([u1, u2, u3, abby, mimi, brie, honey, margo, louise, 
+    					sh1, sh2, sh3, cav, lab, pug])
+    db.session.commit()
 
 
 ##############################################################################
 # Helper functions
 
-def connect_to_db(app):
+def connect_to_db(app, db_uri="postgresql:///dogs"):
     """Connect the database to our Flask app."""
 
     # Configure to use our PostgreSQL database
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///dogs'
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.app = app
     db.init_app(app)
@@ -116,5 +151,4 @@ if __name__ == "__main__":
 
     from server import app
     connect_to_db(app)
-    print "Connected to DB."
 

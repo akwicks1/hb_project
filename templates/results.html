@@ -22,7 +22,7 @@
 		{% for animal_obj in animal_list %}
 			{% if animal_obj.get('media') %}
 
-        
+    
 				Last Update: {{ animal_obj['lastUpdate'] }}<br>
 				Breed: {{ animal_obj['breeds']['breed'] }}<br>
 				Name: {{ animal_obj['name'] }}<br>
@@ -39,7 +39,7 @@
 				{{ animal_obj['contact']['state']}}
 				{{ animal_obj['contact']['zip']}}<br>
         
-        
+
 				<br>
 				<br>
 
@@ -191,11 +191,13 @@
         });
 
         var shelterResults = []
-        $('.favorite').each(function() { shelterResults.push($(this).data('shelter'))} );
+        $('.fave_btn').each(function() { shelterResults.push($(this).data('shelter'))} );
 
         	var shelter_ids = {
         		'list_of_shelters': shelterResults
         	}
+          console.log(shelter_ids);
+
 
         $.get('/shelter-results.json', shelter_ids, function(shelters) {
         	console.log(shelters);

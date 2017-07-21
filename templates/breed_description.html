@@ -1,0 +1,23 @@
+
+<html>
+<head>
+	<title>Breed Description</title>
+</head>
+<body>
+	
+    	<img src="{{ breed.img_url }}" alt="{{ breed.breed }}">
+    	{{ breed.description }}
+   		
+  <form action="/dogbybreed" method="GET">
+		<select name="breed">
+      	<option value = "{{ breed.breed }}">{{ breed.breed }}</option>
+
+   	</select>
+   		<input type="submit" value="Submit">
+   </form>
+  <form action="/">
+    <input type="submit" value="Homepage">
+  </form>
+
+</body>
+</html>

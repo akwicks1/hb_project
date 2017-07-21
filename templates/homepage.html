@@ -7,6 +7,7 @@
 	<h1>Search for a dog</h1>
 </head>
 <body>
+	<div class="container">
 	<form action="/results" method="GET">
 	  Location <input type="text" name="location">
 	  Age 
@@ -21,8 +22,8 @@
 	  	<option value="M">Male</option>
 	  	<option value="F">Female</option>
 		</select>
-		Breed
-		<select name="breed">
+		<!-- Breed -->
+<!-- 		<select name="breed">
 			{% for breed in breed_list %}
       	<option value = "{{ breed }}">{{ breed }}</option>
     		{% endfor %}
@@ -30,13 +31,13 @@
    		Count 
    		<input type="checkbox" name="count" value="5"> 5<br>
    		<input type="checkbox" name="count" value="10"> 10<br>
-   		<input type="checkbox" name="count" value="25"> 25<br>
+   		<input type="checkbox" name="count" value="25"> 25<br> -->
 		<input type="submit" value="Submit">
 	</form>
 
 	<h1>Random dog</h1>
 	<form action="/randomresult" method="GET">
-		Location <input type="text" name="location">
+<!-- 		Location <input type="text" name="location"> -->
 	  Age 
 	  <select name="age">
 	  	<option value="Baby">Baby</option>
@@ -61,9 +62,11 @@
    	</select>
    		<input type="submit" value="Submit">
    </form>
-
-   
-
+   <h1>Dog chart</h1>
+   <form action="/breedchart">
+	<input type="submit" value="Breed Chart">
+  </form>
+</div>
 </body>
 </html>
 
