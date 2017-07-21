@@ -1,11 +1,22 @@
 {% extends 'base.html' %}
-{% block content %}
+
 <html>
 <head>
+  {% block head %}
 	<title>Pets in Shelter</title>
-</head>
-<body>
+      <style>
+       #map {
+        height: 500px;
+        width: 100%;
+       }
+       .window-content {
+        color: #04162b;
+        width: 150px;
+        }
+    </style>
+  {% endblock %}
 
+{% block content %}
 
 	{% for animal_obj in shelter_animals_list %}
 		{% if animal_obj.get('media') %}
@@ -35,9 +46,77 @@
 		  
 		{% endif %}
 	{% endfor %}
-	{% endblock %}
   <form action="/">
     <input type="submit" value="Homepage">
   </form>
+      <h3>Shelter Map</h3>
+    <div id="map"></div>
+    <script src="https://code.jquery.com/jquery.js"></script>
+          <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXLQWeh2IN4-OgsSMoQYUIxURAgOUO5m4&callback=initMap">
+    </script>
+<script>
+    "use strict";
+      function initMap() {
+        var shelter = {{ shelter_list_json|safe }};
+        console.log(shelter)
+        var name = shelter[0]
+        var latitude = shelter[1]
+        var longitude = shelter[2]
+        var phone = shelter[3]
+        var email = shelter[4]
+
+        var sf = {lat: 37.7749, lng: -122.4194};
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 4,
+          center: sf
+        });
+        // var marker = new google.maps.Marker({
+        //   position: sf,
+        //   map: map
+        // });
+
+        var infoWindow = new google.maps.InfoWindow({
+            width: 150
+        });
+
+        var marker = new google.maps.Marker({
+          position: new google.maps.LatLng(latitude,longitude),
+          map: map,
+          title: 'Shelter Name: ' + name,
+          icon: '/static/img/shelter.png'
+        });
+
+        var html = (
+          '<div class="window-content>' +
+            '<img src="/static/img/shelter.png" alt="shelter" style="width:150px;" class="thumbnail">' +
+            '<p><b>Shelter Name: <b>' + name + '</p>' +
+            '<p><b>Shelter Email: <b>' + phone + '</p>' +
+            '<p><b>Shelter Phone: <b>' + email + '</p>' +
+            
+          '</div>');
+
+        bindInfoWindow(marker, map, infoWindow, html);
+
+          }
+
+     
+
+      function bindInfoWindow(marker, map, infoWindow, html) {
+        google.maps.event.addListener(marker, 'click', function () {
+          infoWindow.close();
+          infoWindow.setContent(html);
+          infoWindow.open(map, marker);
+        });
+      }
+    
+
+    google.maps.event.addDomListener(window, 'load', initMap);
+
+
+        
+    </script>
+
+{% endblock %}
+
 </body>
 </html>

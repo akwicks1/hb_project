@@ -148,7 +148,7 @@ def show_dog_by_breed():
     by_breed_dict = xmltodict.parse(breed_response.text)
     
     shelter_breed_list = by_breed_dict['petfinder']['shelters']['shelter']
-
+    print shelter_breed_list
     for shelter_obj in shelter_breed_list:
 
         shelter_id = shelter_obj['id']
@@ -162,6 +162,7 @@ def show_dog_by_breed():
             shelter_obj['address1'] = "N/A"
 
         shelter = Shelter.query.get(shelter_id)
+
         #if shelter doesn't exist
         if shelter is None:
             #add it to the database WITH NAME
@@ -187,11 +188,24 @@ def show_pets_at_shelter():
 
     shelter_animals_list = shelter_animals_dict['petfinder']['pets']['pet']
 
+    shelter = Shelter.query.get(shelter_id)
+
+    latitude = shelter.latitude
+    longitude = shelter.longitude
+    name = shelter.name
+    phone = shelter.phone
+    email = shelter.email
+    if phone is None or email is None:
+        phone = "Unavailable"
+        email = "Unavailable"
+        shelter_list_json = [name, latitude, longitude, phone, email]
+
+
     for animal_obj in shelter_animals_list:
 
         fix_formating(animal_obj)
 
-    return render_template("shelter_pets.html", shelter_animals_list=shelter_animals_list)
+    return render_template("shelter_pets.html", shelter_animals_list=shelter_animals_list, shelter_list_json=json.dumps(shelter_list_json))
 
 @app.route('/randomresult')
 def show_random():

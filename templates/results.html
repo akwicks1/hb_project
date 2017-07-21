@@ -112,42 +112,7 @@
 	    $('.fave_btn').on('click', addDogToFavorites); 
 
      }); 
-    // $(function () {
 
-    //   function RemoveDogFromFavorites(evt){
-    //     var button_id = ("#" + this.id);
-    //     var shelter_id = $(button_id).data("shelter");
-    //     var adopted_status = $(button_id).data("status");
-    //     var age = $(button_id).data("age");
-    //     var breed = $(button_id).data("breed");
-    //     var name = $(button_id).data("name")
-    //     var img_url = $(button_id).data("url");
-      
-    //     form_data = {'petfinder_id': this.id, 
-    //                  'shelter': shelter_id, 
-    //                  'status': adopted_status, 
-    //                  'age': age, 
-    //                  'breed': breed,
-    //                  'name' : name,
-    //                  'url': img_url};
-
-
-    //   $.post('favorites/remove', form_data, removeFromFavoritesSuccess);
-
-    //   }
-
-    //   function removeFromFavoritesSuccess(result){
-
-    //     console.log(result.status)
-    //     var id = result.id;
-
-    //     $("#" + id).css('color', 'blue')
-    //   } 
-
-
-    //   $('.favorite').on('click', RemoveDogFromFavorites); 
-
-    //  }); 
 	</script>
   <form action="/">
     <input type="submit" value="Homepage">
@@ -181,11 +146,7 @@
           zoom: 4,
           center: sf
         });
-        var marker = new google.maps.Marker({
-          position: sf,
-          map: map
-        });
-
+    
         var infoWindow = new google.maps.InfoWindow({
             width: 150
         });
@@ -222,6 +183,8 @@
                 '<img src="/static/img/shelter.png" alt="shelter" style="width:150px;" class="thumbnail">' +
                 '<p><b>Shelter ID: <b>' + shelter.shelter_id + '</p>' +
                 '<p><b>Shelter Zipcode: <b>' + shelter.zipcode + '</p>' +
+                '<p><b>Shelter Email: <b>' + shelter.phone + '</p>' +
+              '<p><b>Shelter Phone: <b>' + shelter.email + '</p>' +
               '</div>');
 
             bindInfoWindow(marker, map, infoWindow, html);

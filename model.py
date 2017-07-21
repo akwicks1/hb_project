@@ -23,78 +23,80 @@ class User(db.Model):
         return "<User user_id=%s email=%s>" % (self.user_id, self.email)
 
 class Favorite(db.Model):
-	"""Favorites Assoication Table."""
+    """Favorites Assoication Table."""
 
-	__tablename__ = "favorites"
+    __tablename__ = "favorites"
 
-	fave_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-	user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
-	petfinder_id = db.Column(db.Integer, db.ForeignKey('dogs.petfinder_id'))
+    fave_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+    petfinder_id = db.Column(db.Integer, db.ForeignKey('dogs.petfinder_id'))
 
-	user = db.relationship("User",
-							backref=db.backref("favorites"))
+    user = db.relationship("User",
+                            backref=db.backref("favorites"))
 
-	def __repr__(self):
-		"""Provide favorites details."""
+    def __repr__(self):
+        """Provide favorites details."""
 
-		return "<Fave fave_id=%s User user_id=%s PF_id petfinder_id%s>" % (
-			self.user_id, self.fave_id, self.petfinder_id)
+        return "<Fave fave_id=%s User user_id=%s PF_id petfinder_id%s>" % (
+            self.user_id, self.fave_id, self.petfinder_id)
 
 
 class Dog(db.Model):
-	"""Information about dog from petfinder."""
+    """Information about dog from petfinder."""
 
-	__tablename__ = "dogs"
+    __tablename__ = "dogs"
 
-	petfinder_id = db.Column(db.Integer, primary_key=True)
-	shelter_id = db.Column(db.String(6), db.ForeignKey('shelters.shelter_id'))
-	name = db.Column(db.String(20))
-	adopted_status = db.Column(db.String(1))
-	img_url = db.Column(db.String(300))
-	age = db.Column(db.String(10))
-	breed = db.Column(db.String(50))
+    petfinder_id = db.Column(db.Integer, primary_key=True)
+    shelter_id = db.Column(db.String(6), db.ForeignKey('shelters.shelter_id'))
+    name = db.Column(db.String(20))
+    adopted_status = db.Column(db.String(1))
+    img_url = db.Column(db.String(300))
+    age = db.Column(db.String(10))
+    breed = db.Column(db.String(50))
 
-	favorites = db.relationship("Favorite",
-								 backref=db.backref("dogs"))
-	def __repr__(self):
-		"""Provide dog details."""
+    favorites = db.relationship("Favorite",
+                                 backref=db.backref("dogs"))
+    def __repr__(self):
+        """Provide dog details."""
 
-		return "<PF_id petfinder_id=%s Shelter shelter_id%s>" % (self.petfinder_id, self.shelter_id)
+        return "<PF_id petfinder_id=%s Shelter shelter_id%s>" % (self.petfinder_id, self.shelter_id)
 
 class Shelter(db.Model):
-	"""Information about shelters."""
+    """Information about shelters."""
 
-	__tablename__ = "shelters"
+    __tablename__ = "shelters"
 
-	shelter_id = db.Column(db.String(6), primary_key=True)
-	zipcode = db.Column(db.String(15))
-	latitude = db.Column(db.String(12))
-	longitude = db.Column(db.String(13))
-	name = db.Column(db.String(100), nullable=True)
+    shelter_id = db.Column(db.String(6), primary_key=True)
+    zipcode = db.Column(db.String(15))
+    latitude = db.Column(db.String(12))
+    longitude = db.Column(db.String(13))
+    name = db.Column(db.String(100), nullable=True)
+    phone = db.Column(db.String(20), nullable=True)
+    email = db.Column(db.String(50), nullable=True) 
 
 
-	dogs = db.relationship("Dog",
-							backref=db.backref("shelters"))
+    dogs = db.relationship("Dog",
+                            backref=db.backref("shelters"))
 
-	def __repr__(self):
-		"""Provide shelter details."""
+    def __repr__(self):
+        """Provide shelter details."""
 
-		return "<Shelter shelter_id=%s Zipcode zipcode=%s" % (self.shelter_id, self.zipcode)
+        return "<Shelter shelter_id=%s Zipcode zipcode=%s" % (self.shelter_id, self.zipcode)
 
 class Breed(db.Model):
-	"""Information about breeds."""
+    """Information about breeds."""
 
-	__tablename__ = "breeds"
+    __tablename__ = "breeds"
 
-	breed_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-	breed = db.Column(db.String(50))
-	description = db.Column(db.String(10000), nullable=True)
-	img_url = db.Column(db.String(300), nullable=True)
+    breed_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    breed = db.Column(db.String(50))
+    description = db.Column(db.String(10000), nullable=True)
+    img_url = db.Column(db.String(300), nullable=True)
 
-	def __repr__(self):
-		"""Provide breed details."""
+    def __repr__(self):
+        """Provide breed details."""
 
-		return "<Breed_id breed_id=%s Breed breed=%s" % (self.breed_id, self.breed)
+        return "<Breed_id breed_id=%s Breed breed=%s" % (self.breed_id, self.breed)
 def example_data():
     """Create some sample data."""
 
@@ -128,7 +130,7 @@ def example_data():
     pug = Breed(breed_id='3', breed='Pug')
 
     db.session.add_all([u1, u2, u3, abby, mimi, brie, honey, margo, louise, 
-    					sh1, sh2, sh3, cav, lab, pug])
+                        sh1, sh2, sh3, cav, lab, pug])
     db.session.commit()
 
 

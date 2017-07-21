@@ -63,9 +63,7 @@
     <script>
     "use strict";
       function initMap() {
-        var shelterJSON = '{{ shelter_breed_list_json|safe }}';
-        console.log(shelterJSON);
-        var shelterList = JSON.parse(shelterJSON);
+        var shelterList = {{ shelter_breed_list_json|safe }};
         console.log(shelterList);
 
         var sf = {lat: 37.7749, lng: -122.4194};
@@ -82,13 +80,13 @@
             width: 150
         });
 
-        var latList = []
-        $('.latlng').each(function() { latList.push($(this).data('lat'))} );
-        console.log(latList)
+        // var latList = []
+        // $('.latlng').each(function() { latList.push($(this).data('lat'))} );
+        // console.log(latList)
 
-        var lngList = []
-        $('.latlng').each(function() { lngList.push($(this).data('lng'))} );
-        console.log(lngList)
+        // var lngList = []
+        // $('.latlng').each(function() { lngList.push($(this).data('lng'))} );
+        // console.log(lngList)
 
 
 
@@ -114,6 +112,8 @@
                 '<img src="/static/img/shelter.png" alt="shelter" style="width:150px;" class="thumbnail">' +
                 '<p><b>Shelter ID: <b>' + shelter.id + '</p>' +
                 '<p><b>Shelter Zipcode: <b>' + shelter.zip + '</p>' +
+                '<p><b>Shelter Phone: <b>' + shelter.phone + '</p>' +
+                '<p><b>Shelter Email: <b>' + shelter.email + '</p>' +
               '</div>');
 
             bindInfoWindow(marker, map, infoWindow, html);
