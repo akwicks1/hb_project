@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
-
+{% block content %}
 <html>
 <head>
-  {% block head %}
 	<title>Pets in Shelter</title>
       <style>
        #map {
@@ -14,9 +13,9 @@
         width: 150px;
         }
     </style>
-  {% endblock %}
 
-{% block content %}
+
+
 
 	{% for animal_obj in shelter_animals_list %}
 		{% if animal_obj.get('media') %}

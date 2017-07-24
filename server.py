@@ -146,9 +146,9 @@ def show_dog_by_breed():
     breed_response = requests.get('http://api.petfinder.com/shelter.listByBreed?', params=by_breed)
     
     by_breed_dict = xmltodict.parse(breed_response.text)
-    
+
     shelter_breed_list = by_breed_dict['petfinder']['shelters']['shelter']
-    print shelter_breed_list
+
     for shelter_obj in shelter_breed_list:
 
         shelter_id = shelter_obj['id']
@@ -280,25 +280,26 @@ def breed_chart_data():
     breed_labels = find_labels('breeds.csv')
     breed_datasets = find_datasets('breeds.csv')
 
+    backgroundColor = ["#522a5b", "#fff99f", "#87dce6", "#522a5b", "#fff99f", "#87dce6","#522a5b", "#fff99f", "#87dce6",
+                        "#522a5b", "#fff99f", "#87dce6", "#522a5b", "#fff99f", "#87dce6","#522a5b", "#fff99f", "#87dce6","#522a5b", "#fff99f", "#87dce6","#522a5b", "#fff99f", "#87dce6","#522a5b", "#fff99f", "#87dce6","#522a5b", "#fff99f", "#87dce6",]
+
     data_dict = {
                 "labels": breed_labels,
                 "datasets": [
                     {
                         "data": breed_datasets,
-                        "backgroundColor": [
-                            "#FF6384",
-                            "#36A2EB",
-                        ],
+                        "backgroundColor": backgroundColor,
+                        
                         "hoverBackgroundColor": [
                             "#FF6384",
                             "#36A2EB",
+                            "#4D4D4D",
                         ]
                     }]
                 }
 
     return jsonify(data_dict)
-    
-  
+
 
 @app.route('/favorites', methods=['POST'])
 def add_to_favorite():
@@ -410,9 +411,9 @@ def profile_page(user_id):
     """User's profile page."""
 
     user = User.query.get(user_id)
-
+    print user
     all_favorites = user.favorites
-
+    print all_favorites
     fave_dogs = []
     for fave in all_favorites:
         fave_dogs.append(fave.dogs)

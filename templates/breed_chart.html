@@ -1,19 +1,8 @@
-  
-    <html>
+{% extends 'base.html' %}
+{% block content %}
+
 <head>
     <title>Breed Chart</title>
-    <style>
-      .dogpic div {
-        visibility: hidden;
-        background-color: white;
-        position: absolute;
-        left: 100px;
-        top: 100px;
-      }
-      .dogpic:hover div{
-        visibility: visible;
-      }
-    </style>
 </head>
 <body>
 <div class="breed-chart">
@@ -46,7 +35,6 @@
   {% for breed in breeds %}
   <div class="dogpic"> 
     <div  >
-      dfhdfhdf
     </div>
     <a href="{{ url_for('breed_details', breed=breed.breed) }}" </a>
      <img src="{{ breed.img_url }}" alt="{{ breed.breed }}">
@@ -55,3 +43,6 @@
 
 </body>
 </html>
+
+
+{% endblock %}
