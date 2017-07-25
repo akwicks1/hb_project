@@ -10,40 +10,52 @@
 		#map {
         height: 400px;
         width: 100%;
-       }
+    }
     .favorite {
       color: red;
     }
+    .favorite {
+      color: red;
+    }
+
 
     </style>
 </head>
 	<body>
 
-		{% for animal_obj in animal_list %}
-			{% if animal_obj.get('media') %}
-
-    
-				Last Update: {{ animal_obj['lastUpdate'] }}<br>
-				Breed: {{ animal_obj['breeds']['breed'] }}<br>
-				Name: {{ animal_obj['name'] }}<br>
-				Id: {{ animal_obj['id'] }}<br>
-				Shelter Id: {{ animal_obj['shelterId'] }}<br>
-				Size: {{ animal_obj['size'] }}<br>
-				Gender: {{ animal_obj['sex'] }}<br>
-				Age: {{ animal_obj['age'] }}<br>
-				Mix: {{ animal_obj['mix'] }}<br>
-				Description: {{ animal_obj['description'] }}<br>
-				Address: {{ animal_obj['contact']['address1']}}
-				{{ animal_obj['contact']['address2']}}
-				{{ animal_obj['contact']['city'] }}
-				{{ animal_obj['contact']['state']}}
-				{{ animal_obj['contact']['zip']}}<br>
+<div class="container-fluid">
+    <div class="row">
+      {% set count = 0 %}
+      {% if count % 3 == 0 %}
+      {% for animal_obj in animal_list %}
+        {% if animal_obj.get('media') %}
         
+        
+        <div class="col-sm-4">
+    
 
-				<br>
-				<br>
+  				Last Update: {{ animal_obj['lastUpdate'] }}<br>
+  				Breed: {{ animal_obj['breeds']['breed'] }}<br>
+  				Name: {{ animal_obj['name'] }}<br>
+  				Id: {{ animal_obj['id'] }}<br>
+  				Shelter Id: {{ animal_obj['shelterId'] }}<br>
+  				Size: {{ animal_obj['size'] }}<br>
+  				Gender: {{ animal_obj['sex'] }}<br>
+  				Age: {{ animal_obj['age'] }}<br>
+  				Mix: {{ animal_obj['mix'] }}<br>
+  				<div class="max-lines"> Description: {{ animal_obj['description'] }}
+        </div>
+  				Address: {{ animal_obj['contact']['address1']}}
+  				{{ animal_obj['contact']['address2']}}
+  				{{ animal_obj['contact']['city'] }}
+  				{{ animal_obj['contact']['state']}}
+  				{{ animal_obj['contact']['zip']}}<br>
+          
 
-			  <img src="{{ animal_obj['media']['photos']['photo'][3]['#text'] }}">
+  				<br>
+  				<br>
+
+  			  <img id="resize" src="{{ animal_obj['media']['photos']['photo'][2]['#text'] }}">
 
 
 
@@ -52,7 +64,7 @@
 								data-age="{{ animal_obj['age'] }}"
 								data-breed="{{ animal_obj['breeds']['breed'] }}"
 								data-name="{{ animal_obj['name'] }}"
-								data-url="{{ animal_obj['media']['photos']['photo'][3]['#text'] }}"
+								data-url="{{ animal_obj['media']['photos']['photo'][2]['#text'] }}"
                 id="{{ animal_obj['id'] }}" 
                 class="fave_btn 
                 {% if animal_obj['favorited_before'] %}
@@ -62,8 +74,18 @@
                 
 				<br>
 				<br>
-			{% endif %}
-		{% endfor %}
+
+
+      </div>
+              
+              {% endif %}
+        {% set count = count + 1 %}
+        {% endfor %}
+      {% endif %}
+
+    </div>
+</div>
+		
 <script src="https://code.jquery.com/jquery.js"></script>
 
     <script>

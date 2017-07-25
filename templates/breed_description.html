@@ -5,10 +5,13 @@
 	<title>Breed Description</title>
 </head>
 <body>
-	
+  <div class="container-fluid">
+  <div class="row">
+  <div class="col-sm-2">
+	 <div id="resizebreed ">
     	<img src="{{ breed.img_url }}" alt="{{ breed.breed }}">
     	{{ breed.description }}
-   		
+   	</div>
   <form action="/dogbybreed" method="GET">
 		<select name="breed">
       	<option value = "{{ breed.breed }}">{{ breed.breed }}</option>
@@ -19,7 +22,9 @@
   <form action="/">
     <input type="submit" value="Homepage">
   </form>
-
+</div>
+</div>
+</div>
 </body>
 
 

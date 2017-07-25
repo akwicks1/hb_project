@@ -5,33 +5,50 @@
 </head>
 	<h1>List of shelters with {{ breed }}</h1>
 <body>
+  <div class="container-fluid">
+    <div class="row">
+      {% set count = 0 %}
+      {% if count % 3 == 0 %}
+	     {% for shelter_obj in shelter_breed_list %}
 
-	{% for shelter_obj in shelter_breed_list %}
+         <div class="col-sm-4">
+          Name: {{ shelter_obj['name'] }} <br>
+      		Shelter Id: {{ shelter_obj['id'] }}<br>
+      		Address: {{ shelter_obj['address1'] }} <br>
+      		{{ shelter_obj['address2'] }} 
+      		{{ shelter_obj['city'] }} 
+      		{{ shelter_obj['state'] }} 
+      		{{ shelter_obj['zip'] }}
+      		{{ shelter_obj['country'] }} <br>
+      		Phone: {{ shelter_obj['phone'] }} <br>
+      		Email: {{ shelter_obj['email'] }} <br>
+          <br>
 
+        </div>
+        {% set count = count + 1 %}
 
-		Shelter Id: {{ shelter_obj['id'] }}<br>
-		Name: {{ shelter_obj['name'] }} <br>
-		Address: {{ shelter_obj['address1'] }} <br>
-		{{ shelter_obj['address2'] }} 
-		{{ shelter_obj['city'] }} 
-		{{ shelter_obj['state'] }} 
-		{{ shelter_obj['zip'] }}
-		{{ shelter_obj['country'] }} <br>
-		Phone: {{ shelter_obj['phone'] }} <br>
-		Email: {{ shelter_obj['email'] }} <br>
-    <br>
-
-	{% endfor %}
-
-  {% for shelter_obj in shelter_breed_list %}
-
-
-
-
-    <div class="latlng" data-lat="{{ shelter_obj['latitude'] }}"data-lng="{{ shelter_obj['longitude'] }}">
+    	{% endfor %}
+      {% endif %}
+    
+   
     </div>
+  </div>
 
-  {% endfor %}
+        {% for shelter_obj in shelter_breed_list %}
+
+
+
+
+      <div class="latlng" data-lat="{{ shelter_obj['latitude'] }}"data-lng="{{ shelter_obj['longitude'] }}">
+      </div>
+        
+                
+
+      
+     {% endfor %}
+   
+
+    
   <h1>Animals by shelter id</h1>
    <form action="/shelterpets" method="GET">
     <input type="text" name="shelterid">

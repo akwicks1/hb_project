@@ -32,14 +32,24 @@
 
 </script>
  
-  {% for breed in breeds %}
-  <div class="dogpic"> 
-    <div  >
-    </div>
+  
+  <div class="container-fluid">
+  <div class="row"> 
+      {% set count = 0 %}
+      {% if count % 6 == 0 %}
+      {% for breed in breeds %}
+      <div class="col-sm-2">
     <a href="{{ url_for('breed_details', breed=breed.breed) }}" </a>
      <img src="{{ breed.img_url }}" alt="{{ breed.breed }}">
   </div>
+  {% set count = count + 1 %}
+
   {% endfor %}
+  {% endif %}
+</div>
+</div>
+<!--   <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Tooltip on top">Tooltip on top</button> -->
+  
 
 </body>
 </html>
