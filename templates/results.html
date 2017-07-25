@@ -1,24 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<!DOCTYPE HTML>		
-<html>
 <head>
-	<h1>Result for a dog</h1>
-	<h4>All dogs are available for adoption as of last update</h4> 
-	<style>
-		#map {
-        height: 400px;
-        width: 100%;
-    }
-    .favorite {
-      color: red;
-    }
-
-    </style>
+  <title>Results</title>
 </head>
 	<body>
-
+  <h1>Result for a dog</h1><h4>All dogs are available for adoption as of last update</h4> 
 <div class="container">
 <div class="row">
 <div id="map"></div>
@@ -40,6 +27,7 @@
         
           <img class="picresult" src="{{ animal_obj['media']['photos']['photo'][2]['#text'] }}">
           <br>
+          <div class="text">
           Name: {{ animal_obj['name'] }} the {{ animal_obj['breeds']['breed'] }}<br>
   				Id: {{ animal_obj['id'] }} & Shelter Id: {{ animal_obj['shelterId'] }}<br>
   				Gender: {{ animal_obj['sex'] }} | Age: {{ animal_obj['age'] }} | Mix: {{ animal_obj['mix'] }}<br>
@@ -70,7 +58,7 @@
 				<br>
 				<br>
 
-     
+        </div>
       </div>
               
               {% endif %}

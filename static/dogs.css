@@ -1,3 +1,19 @@
+#pawbrand {
+	height: 100px;
+	width: 100px;
+	margin-top: 100px;
+	margin-right: 40px;
+}
+h1, h2, h3, .navbar-brand { font-family: 'PT Sans', sans-serif; 
+}
+
+
+.profilepage {
+	font-size: 60px
+}
+.navtitle {
+	font-size: 100px
+}
 .favorite {
 	color: red;
 }
@@ -5,6 +21,10 @@
 	height: 300px;
 	width: 220px;
 
+}
+
+.text {
+	font-family: 'PT Sans', sans-serif;
 }
 
 .breedpic {
