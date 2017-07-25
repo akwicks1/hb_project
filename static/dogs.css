@@ -4,6 +4,7 @@
 #resize {
   width: 75%;
   height: auto;
+
 }
 .max-lines {
 display: block; /* or inline-block */

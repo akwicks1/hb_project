@@ -3,7 +3,7 @@
 <head>
 <title>Pawst & Found</title>
 
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"rel="stylesheet">
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"rel="stylesheet"><link href ="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cerulean/bootstrap.min.css"rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Baloo+Bhaina" rel="stylesheet">
     <style>
         h1, h2, h3, .navbar-brand { font-family: 'Baloo Bhaina', cursive; }
@@ -18,36 +18,36 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="/static/img/pawheart.png"></a>
+      </button><!-- 
+      <a class="navbar-brand" href="/static/img/pawheart.png"></a> -->
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="http://localhost:5000/login">Login<span class="sr-only">(current)</span></a></li>
-        <li><a href="#">Link</a></li>
-        <li class="dropdown">
+        <li><img alt="Brand" src="/static/img/pawheart.png"></li>
+        <li class="active"><a href="http://localhost:5000/login">Logout<span class="sr-only">(current)</span></a></li>
+        <li><a href="#">Register</a></li>
+      <!--   <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
+<!           --> <!-- ul class="dropdown-menu"> -->
+           <!--  <li><a href="#">Action</a></li>
             <li><a href="#">Another action</a></li>
             <li><a href="#">Something else here</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="#">Separated link</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="#">One more separated link</a></li>
-          </ul>
-        </li>
+          </ul> --> 
+        <!-- </li> -->
       </ul>
       <form class="navbar-form navbar-left">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
+          <h1>Pawst&Found</h1>
         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
       </form>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Link</a></li>
+        <li><a href="#">Profile Page</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
           <ul class="dropdown-menu">
@@ -62,24 +62,20 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
-Brand image
-Replace the navbar brand with your own image by swapping the text for an <img>. Since the .navbar-brand has its own padding and height, you may need to override some CSS depending on your image.
-
-Brand
-<nav class="navbar navbar-default">
+<!-- <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
       <a class="navbar-brand" href="#">
-        <img alt="Brand" src="/static/img/pawheart.png">
+        <img alt="Brand">
       </a>
     </div>
   </div>
-</nav>
+</nav> -->
 </head>
 <body>
 
 
-{% if "user_id" in session %}
+<!-- {% if "user_id" in session %}
     <a href="/logout">Logout</a>
 {% else %}
     <a href="/login">Login</a>
@@ -91,7 +87,7 @@ Brand
 	<a href="/register">Register</a>
 {% endif %}
 <hr>
-
+ -->
 {% for flash in get_flashed_messages() %}
   {{ flash }}
 {% endfor %}

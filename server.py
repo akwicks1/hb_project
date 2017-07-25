@@ -96,7 +96,7 @@ def search_results():
     location = request.args.get("location")
     age = request.args.get("age")
     sex = request.args.get("sex")
-    count = 10
+    count = 9
     status = "A"#pass in?
     animal = "dog"
     payload = {'key': pf_key, 'animal': animal, 'count': count, 'location': location, 'sex': sex, 'status': status}

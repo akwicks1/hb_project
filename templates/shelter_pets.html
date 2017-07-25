@@ -13,12 +13,25 @@
         width: 150px;
         }
     </style>
+</head>
+  <body>
+<div class="container-fluid">
+<div class="row">
+<div id="map"></div>
+</div>
+</div>
 
 
 
 
+<div class="container-fluid">
+    <div class="row">
+      {% set count = 0 %}
+      {% if count % 3 == 0 %}
 	{% for animal_obj in shelter_animals_list %}
 		{% if animal_obj.get('media') %}
+
+    <div class="col-sm-4">
 
 			<img src="{{ animal_obj['media']['photos']['photo'][3]['#text'] }}"><br>
     
@@ -42,14 +55,20 @@
 			<br>
 			<br>
 
-		  
-		{% endif %}
-	{% endfor %}
+      </div>
+              
+              {% endif %}
+        {% set count = count + 1 %}
+        {% endfor %}
+      {% endif %}
+
+    </div>
+</div>
   <form action="/">
     <input type="submit" value="Homepage">
   </form>
       <h3>Shelter Map</h3>
-    <div id="map"></div>
+
     <script src="https://code.jquery.com/jquery.js"></script>
           <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXLQWeh2IN4-OgsSMoQYUIxURAgOUO5m4&callback=initMap">
     </script>

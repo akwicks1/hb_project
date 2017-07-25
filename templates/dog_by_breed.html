@@ -6,6 +6,11 @@
 	<h1>List of shelters with {{ breed }}</h1>
 <body>
   <div class="container-fluid">
+<div class="row">
+<div id="map"></div>
+</div>
+</div>
+  <div class="container-fluid">
     <div class="row">
       {% set count = 0 %}
       {% if count % 3 == 0 %}
@@ -73,7 +78,6 @@
   </head>
   <body>
     <h3>Shelter Map</h3>
-    <div id="map"></div>
     <script src="https://code.jquery.com/jquery.js"></script>
           <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXLQWeh2IN4-OgsSMoQYUIxURAgOUO5m4&callback=initMap">
     </script>
