@@ -6,30 +6,44 @@
 	<title>Profile Page</title>
 </head>
 <body>
-	<form action="/">
-  First name:<br>
-  <input type="text" name="firstname" value="{{ user.first_name }}"><br>
-  Last name:<br>
-  <input type="text" name="lastname" value="{{ user.last_name }}"><br>
-  Email: <br>
-  <input type="text" name="email" value="{{ user.email }}"><br>
-  Phone number: <br>
-  <input type="text" name="phone_number" value="{{ user.phone_number }}"><br>
-  Zipcode:<br>
-  <input type="text" name="zip_code" value="{{ user.zip_code }}"><br>
-  <input type="submit" value="Submit">
-</form>
-  {% for dog in dogs %}
-    
-    <img src={{ dog.img_url }}>
-    {{ dog.name }}
-    {{ dog.shelter_id }}
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
 
-  {%endfor%}
+      	<form action="/">
+          First name:<br>
+          <input type="text" name="firstname" value="{{ user.first_name }}"><br>
+          Last name:<br>
+          <input type="text" name="lastname" value="{{ user.last_name }}"><br>
+          Email: <br>
+          <input type="text" name="email" value="{{ user.email }}"><br>
+          Phone number: <br>
+          <input type="text" name="phone_number" value="{{ user.phone_number }}"><br>
+          Zipcode:<br>
+          <input type="text" name="zip_code" value="{{ user.zip_code }}"><br>
+          <input type="submit" value="Submit">
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      {% set count = 0 %}
+      {% if count % 3 == 0 %}
+        {% for dog in dogs %}
+          <div class="col-sm-4">
 
-  <form action="/">
-    <input type="submit" value="Homepage">
-  </form>
+          <img src={{ dog.img_url }}>
+        </br>
+          Name: {{ dog.name }}
+          Shelter ID: {{ dog.shelter_id }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
 

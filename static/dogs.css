@@ -7,14 +7,31 @@
 
 }
 .max-lines {
-display: block; /* or inline-block */
-text-overflow: ellipsis;
-word-wrap: break-word;
-overflow: hidden;
-max-height: 3.6em;
-line-height: 1.8em;
+	display: block; /* or inline-block */
+	text-overflow: ellipsis;
+	word-wrap: break-word;
+	overflow: hidden;
+	max-height: 3.6em;
+	line-height: 1.8em;
 }
 #resizebreed {
   width: 150%;
   height: auto;
+}
+#pawbrand {
+	margin-top: 12px;
+  margin-right: 30px;
+}
+
+.container {
+    background: url(crossword.png) no-repeat center center;
+}
+
+#map {
+height: 400px;
+width: 100%;
+}
+.window-content {
+color: #04162b;
+width: 150px;
 }

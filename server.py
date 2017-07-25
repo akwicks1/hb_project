@@ -280,9 +280,9 @@ def breed_chart_data():
     breed_labels = find_labels('breeds.csv')
     breed_datasets = find_datasets('breeds.csv')
 
-    backgroundColor = ["#522a5b", "#fff99f", "#87dce6", "#522a5b", "#fff99f", "#87dce6","#522a5b", "#fff99f", "#87dce6",
-                        "#522a5b", "#fff99f", "#87dce6", "#522a5b", "#fff99f", "#87dce6","#522a5b", "#fff99f", "#87dce6","#522a5b", "#fff99f", "#87dce6","#522a5b", "#fff99f", "#87dce6","#522a5b", "#fff99f", "#87dce6","#522a5b", "#fff99f", "#87dce6",]
-
+    backgroundColor = ["#6DA22D", "#003467", "#F8E102", "#DB2324", "#6DA22D", "#003467", "#F8E102", "#DB2324", "#6DA22D", "#003467", "#F8E102", "#DB2324",
+                       "#6DA22D", "#003467", "#F8E102", "#DB2324", "#6DA22D", "#003467", "#F8E102", "#DB2324", "#6DA22D", "#003467", "#F8E102", "#DB2324",
+                       "#6DA22D", "#003467", "#F8E102", "#DB2324", "#6DA22D", "#003467", "#F8E102", "#DB2324", "#6DA22D"]
     data_dict = {
                 "labels": breed_labels,
                 "datasets": [
