@@ -32,11 +32,12 @@
   <div class="row">
         {% for dog in dogs %}
     <div class="col-sm-4">
-          <img src="{{ dog.img_url }}">
+          <img class="picresult" src="{{ dog.img_url }}">
         </br>
           Name: {{ dog.name }}
           Shelter ID: {{ dog.shelter_id }}
         </div>
+        {% set count = count + 1 %}
         {% endfor %}
     </div>
       {% endif %}

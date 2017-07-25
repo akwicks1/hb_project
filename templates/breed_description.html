@@ -5,13 +5,17 @@
 	<title>Breed Description</title>
 </head>
 <body>
-  <div class="container-fluid" >
+  <div class="container" >
   <div class="row">
     
-  <div class="col-m-8">
-	 <div class="resizebreed ">
+  <div class="col-xs-offset-4">
+	 <div class="resizebreed">
     	<img src="{{ breed.img_url }}" alt="{{ breed.breed }}"><br>
+    </div>
+    </div>
 
+    <div class="row">
+    <div class="col-xs-offset-1">
 Boxer Dog Temperament:
 
 The boxer is playful, exuberant, inquisitive, attentive, demonstrative, devoted and outgoing; he is a perfect companion for an active family. He can be stubborn, but he is sensitive and responsive to commands. He is generally good with other household dogs and pets.
@@ -28,18 +32,28 @@ Minor concerns: gastric torsion, tumors, intervertebral disc degeneration, corne
 Occasionally seen: none
 Suggested tests: cardiac, hip
 Life span: 8-10 years
-Note: sensitive to heat and anesthesia; white boxers may be deaf.
-     </div>'
-  <form action="/dogbybreed" method="GET">
-		<select name="breed">
-      	<option value = "{{ breed.breed }}">{{ breed.breed }}</option>
-
-   	</select>
-   		<input type="submit" value="Submit">
+Note: sensitive to heat and anesthesia; white boxers may be deaf. <form action="/dogbybreed" method="GET">
+    <select name="breed">
+        <option value = "{{ breed.breed }}">{{ breed.breed }}</option>
+    </select>
+      <input type="submit" value="Submit">
    </form>
 
+     </div>
+   </div>
+
+
+
+      <div class="row">
+    <div class="col-xs-4">
+
+     
+    </div>
+
+    <div class="col-xs-8">
    <a href="https://en.wikipedia.org/wiki/Boxer_(dog)">More Information About Boxers</a>
- </div>
+</div>
+  </div>
 
 </div>
 </div>

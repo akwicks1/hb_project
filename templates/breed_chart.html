@@ -33,14 +33,15 @@
 </script>
  
   
-  <div class="container-fluid">
-  <div class="row"> 
+  <div class="container">
+ 
       {% set count = 0 %}
-      {% if count % 6 == 0 %}
+      {% if count % 3 == 0 %}
+       <div class="row"> 
       {% for breed in breeds %}
-      <div class="col-sm-2">
+      <div class="col-sm-4">
     <a href="{{ url_for('breed_details', breed=breed.breed) }}" </a>
-     <img src="{{ breed.img_url }}" alt="{{ breed.breed }}">
+     <img class="breedpic" src="{{ breed.img_url }}" alt="{{ breed.breed }}">
   </div>
   {% set count = count + 1 %}
 
