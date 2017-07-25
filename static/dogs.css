@@ -1,11 +1,14 @@
 .favorite {
 	color: red;
 }
-#resize {
-  width: 75%;
-  height: auto;
-
+.resultresize {
+	height: 300px;
+	width: 220px;
 }
+.favoritesize {
+	height: 400px;
+}
+
 .max-lines {
 	display: block; /* or inline-block */
 	text-overflow: ellipsis;
@@ -14,7 +17,7 @@
 	max-height: 3.6em;
 	line-height: 1.8em;
 }
-#resizebreed {
+.resizebreed {
   width: 150%;
   height: auto;
 }
@@ -34,4 +37,21 @@ width: 100%;
 .window-content {
 color: #04162b;
 width: 150px;
+}
+
+.favoritebox {
+	  background-color: lightgrey;
+    width: 100%;
+    border: 25px solid green;
+    padding: 25px;
+    margin: 25px;
+}
+
+.dogbybreedbox {
+	  background-color: lightgrey;
+    width: 340px;
+    border: 25px solid green;
+    padding: 25px;
+    margin: 25px;
+    height: 300px;
 }

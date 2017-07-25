@@ -26,8 +26,9 @@
       {% set count = 0 %}
       {% if count % 3 == 0 %}
 	     {% for shelter_obj in shelter_breed_list %}
-
+        
          <div class="col-sm-4">
+          <div class="dogbybreedbox">
           Name: {{ shelter_obj['name'] }} <br>
       		Shelter Id: {{ shelter_obj['id'] }}<br>
       		Address: {{ shelter_obj['address1'] }} <br>
@@ -39,7 +40,7 @@
       		Phone: {{ shelter_obj['phone'] }} <br>
       		Email: {{ shelter_obj['email'] }} <br>
           <br>
-
+        </div>
         </div>
         {% set count = count + 1 %}
 

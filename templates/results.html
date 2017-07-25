@@ -14,10 +14,6 @@
     .favorite {
       color: red;
     }
-    .favorite {
-      color: red;
-    }
-
 
     </style>
 </head>
@@ -39,10 +35,9 @@
         
         <div class="col-sm-4">
     
-
+          <img class="resultresize" src="{{ animal_obj['media']['photos']['photo'][2]['#text'] }}">
   				Last Update: {{ animal_obj['lastUpdate'] }}<br>
-  				Breed: {{ animal_obj['breeds']['breed'] }}<br>
-  				Name: {{ animal_obj['name'] }}<br>
+  				Name: {{ animal_obj['name'] }} the {{ animal_obj['breeds']['breed'] }}<br>
   				Id: {{ animal_obj['id'] }}<br>
   				Shelter Id: {{ animal_obj['shelterId'] }}<br>
   				Size: {{ animal_obj['size'] }}<br>
@@ -61,7 +56,7 @@
   				<br>
   				<br>
 
-  			  <img id="resize" src="{{ animal_obj['media']['photos']['photo'][2]['#text'] }}">
+  			  
 
 
 
@@ -211,8 +206,6 @@
                 '<img src="/static/img/shelter.png" alt="shelter" style="width:150px;" class="thumbnail">' +
                 '<p><b>Shelter ID: <b>' + shelter.shelter_id + '</p>' +
                 '<p><b>Shelter Zipcode: <b>' + shelter.zipcode + '</p>' +
-                '<p><b>Shelter Email: <b>' + shelter.phone + '</p>' +
-              '<p><b>Shelter Phone: <b>' + shelter.email + '</p>' +
               '</div>');
 
             bindInfoWindow(marker, map, infoWindow, html);

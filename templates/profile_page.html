@@ -32,12 +32,13 @@
       {% if count % 3 == 0 %}
         {% for dog in dogs %}
           <div class="col-sm-4">
-
-          <img src={{ dog.img_url }}>
+            <div class="favoritebox">
+          <img class="favoritesize" src="{{ dog.img_url }}">
         </br>
           Name: {{ dog.name }}
           Shelter ID: {{ dog.shelter_id }}
           </div>
+        </div>
         {% endfor %}
       {% endif %}
     </div>
