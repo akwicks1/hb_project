@@ -18,12 +18,14 @@
     </style>
 </head>
 	<body>
+
 <div class="container">
 <div class="row">
 <div id="map"></div>
 </div>
 </div>
-
+    <br>
+    <br>
 
 <div class="container">
     
@@ -37,18 +39,17 @@
         <div class="col-sm-4">
         
           <img class="picresult" src="{{ animal_obj['media']['photos']['photo'][2]['#text'] }}">
-
-  				Last Update: {{ animal_obj['lastUpdate'] }}<br>
-  				Name: {{ animal_obj['name'] }} the {{ animal_obj['breeds']['breed'] }}<br>
+          <br>
+          Name: {{ animal_obj['name'] }} the {{ animal_obj['breeds']['breed'] }}<br>
   				Id: {{ animal_obj['id'] }} & Shelter Id: {{ animal_obj['shelterId'] }}<br>
-  				Gender: {{ animal_obj['sex'] }}, Age: {{ animal_obj['age'] }}, Mix: {{ animal_obj['mix'] }}<br>
-  				<div class="max-lines"> Description: {{ animal_obj['description'] }}
-        </div>
+  				Gender: {{ animal_obj['sex'] }} | Age: {{ animal_obj['age'] }} | Mix: {{ animal_obj['mix'] }}<br>
+  				<div class="max-lines"> Description: {{ animal_obj['description'] }} </div>
   				Address: {{ animal_obj['contact']['address1']}}
   				{{ animal_obj['contact']['address2']}}
   				{{ animal_obj['contact']['city'] }}
   				{{ animal_obj['contact']['state']}}
   				{{ animal_obj['contact']['zip']}}<br>
+          Last Update: {{ animal_obj['lastUpdate'] }}<br>
   			  
 
 
@@ -130,28 +131,10 @@
      }); 
 
 	</script>
-  <form action="/">
-    <input type="submit" value="Homepage">
-  </form>
 
-  <!DOCTYPE html>
-<html>
-  <head>
-    <style>
-       #map {
-        height: 400px;
-        width: 100%;
-       }
-       .window-content {
-        color: #04162b;
-        width: 150px;
-        }
-    </style>
-  </head>
-  <body>
-    <h3>My Google Maps Demo</h3>
-    <!-- <div id="map"></div> -->
-            <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXLQWeh2IN4-OgsSMoQYUIxURAgOUO5m4&callback=initMap">
+
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXLQWeh2IN4-OgsSMoQYUIxURAgOUO5m4&callback=initMap">
     </script>
 
     <script>

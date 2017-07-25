@@ -8,8 +8,8 @@
 }
 
 .picresult {
-	height: 100px;
-	width: 50px;
+	height: 300px;
+	width: 300px;
 }
 .favoritesize {
 	height: 400px;
@@ -24,7 +24,7 @@
 	line-height: 1.8em;
 }
 .resizebreed {
-  width: 150%;
+  width: 100%;
   height: auto;
 }
 #pawbrand {
@@ -55,9 +55,9 @@ width: 150px;
 
 .dogbybreedbox {
 	  background-color: lightgrey;
-    width: 3px;
+    width: 320px;
     border: 25px solid green;
     padding: 25px;
     margin: 25px;
-    height: 300px;
+    height: 320px;
 }

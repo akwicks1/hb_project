@@ -26,22 +26,20 @@
       </div>
     </div>
   </div>
-  <div class="container">
-    <div class="row">
+<div class="container">
       {% set count = 0 %}
       {% if count % 3 == 0 %}
+  <div class="row">
         {% for dog in dogs %}
-          <div class="col-sm-4">
-            <div class="favoritebox">
-          <img class="favoritesize" src="{{ dog.img_url }}">
+    <div class="col-sm-4">
+          <img src="{{ dog.img_url }}">
         </br>
           Name: {{ dog.name }}
           Shelter ID: {{ dog.shelter_id }}
-          </div>
         </div>
         {% endfor %}
-      {% endif %}
     </div>
+      {% endif %}
   </div>
 </div>
 

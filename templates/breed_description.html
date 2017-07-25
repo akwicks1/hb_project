@@ -6,14 +6,30 @@
 </head>
 <body>
   <div class="container-fluid" >
-  <div class="centerpic">
   <div class="row">
     
-  <div class="col-sm-2">
+  <div class="col-m-8">
 	 <div class="resizebreed ">
-    	<img src="{{ breed.img_url }}" alt="{{ breed.breed }}">
-    	{{ breed.description }}
-   	</div>
+    	<img src="{{ breed.img_url }}" alt="{{ breed.breed }}"><br>
+
+Boxer Dog Temperament:
+
+The boxer is playful, exuberant, inquisitive, attentive, demonstrative, devoted and outgoing; he is a perfect companion for an active family. He can be stubborn, but he is sensitive and responsive to commands. He is generally good with other household dogs and pets.
+
+
+Boxer Dog Care:
+
+The boxer needs daily mental and physical exertion. He likes to run, but his exercise needs can also be met with a good jog or a long walk on leash. He does not do well in hot weather and is generally unsuited to living outdoors. He does best when allowed to divide his time between a house and yard. Some snore. His coat needs only occasional brushing to remove dead hair.
+
+Boxer Dog Health:
+
+Major concerns: cardiomyopathy, SAS, CHD 
+Minor concerns: gastric torsion, tumors, intervertebral disc degeneration, corneal erosion, colitis
+Occasionally seen: none
+Suggested tests: cardiac, hip
+Life span: 8-10 years
+Note: sensitive to heat and anesthesia; white boxers may be deaf.
+     </div>'
   <form action="/dogbybreed" method="GET">
 		<select name="breed">
       	<option value = "{{ breed.breed }}">{{ breed.breed }}</option>
@@ -21,8 +37,10 @@
    	</select>
    		<input type="submit" value="Submit">
    </form>
+
+   <a href="https://en.wikipedia.org/wiki/Boxer_(dog)">More Information About Boxers</a>
  </div>
-</div>
+
 </div>
 </div>
 </body>
