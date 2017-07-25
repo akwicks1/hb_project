@@ -4,6 +4,12 @@
 .resultresize {
 	height: 300px;
 	width: 220px;
+
+}
+
+.picresult {
+	height: 100px;
+	width: 50px;
 }
 .favoritesize {
 	height: 400px;
@@ -14,7 +20,7 @@
 	text-overflow: ellipsis;
 	word-wrap: break-word;
 	overflow: hidden;
-	max-height: 3.6em;
+	max-height: 8.6em;
 	line-height: 1.8em;
 }
 .resizebreed {
@@ -49,7 +55,7 @@ width: 150px;
 
 .dogbybreedbox {
 	  background-color: lightgrey;
-    width: 340px;
+    width: 3px;
     border: 25px solid green;
     padding: 25px;
     margin: 25px;

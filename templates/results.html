@@ -26,24 +26,22 @@
 
 
 <div class="container">
-    <div class="row">
+    
       {% set count = 0 %}
       {% if count % 3 == 0 %}
+      <div class="row">
       {% for animal_obj in animal_list %}
         {% if animal_obj.get('media') %}
           
         
         <div class="col-sm-4">
-    
-          <img class="resultresize" src="{{ animal_obj['media']['photos']['photo'][2]['#text'] }}">
+        
+          <img class="picresult" src="{{ animal_obj['media']['photos']['photo'][2]['#text'] }}">
+
   				Last Update: {{ animal_obj['lastUpdate'] }}<br>
   				Name: {{ animal_obj['name'] }} the {{ animal_obj['breeds']['breed'] }}<br>
-  				Id: {{ animal_obj['id'] }}<br>
-  				Shelter Id: {{ animal_obj['shelterId'] }}<br>
-  				Size: {{ animal_obj['size'] }}<br>
-  				Gender: {{ animal_obj['sex'] }}<br>
-  				Age: {{ animal_obj['age'] }}<br>
-  				Mix: {{ animal_obj['mix'] }}<br>
+  				Id: {{ animal_obj['id'] }} & Shelter Id: {{ animal_obj['shelterId'] }}<br>
+  				Gender: {{ animal_obj['sex'] }}, Age: {{ animal_obj['age'] }}, Mix: {{ animal_obj['mix'] }}<br>
   				<div class="max-lines"> Description: {{ animal_obj['description'] }}
         </div>
   				Address: {{ animal_obj['contact']['address1']}}
@@ -51,11 +49,6 @@
   				{{ animal_obj['contact']['city'] }}
   				{{ animal_obj['contact']['state']}}
   				{{ animal_obj['contact']['zip']}}<br>
-          
-
-  				<br>
-  				<br>
-
   			  
 
 
@@ -76,7 +69,7 @@
 				<br>
 				<br>
 
-
+     
       </div>
               
               {% endif %}
