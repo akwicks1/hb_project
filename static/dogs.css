@@ -1,8 +1,9 @@
 #pawbrand {
-	height: 100px;
-	width: 100px;
-	margin-top: 100px;
-	margin-right: 40px;
+  height: 100px;
+  width: 100px;
+  margin-top: 32px;
+  margin-right: 90px;
+  margin-left: 40px;
 }
 h1, h2, h3, .navbar-brand { font-family: 'PT Sans', sans-serif; 
 }
@@ -30,6 +31,7 @@ h1, h2, h3, .navbar-brand { font-family: 'PT Sans', sans-serif;
 .breedpic {
 	height: 300px;
 	width: 300px;	
+	padding: 25px;
 }
 
 .picresult {
@@ -52,10 +54,6 @@ h1, h2, h3, .navbar-brand { font-family: 'PT Sans', sans-serif;
   width: 200px;
   height: 200px;
 }
-#pawbrand {
-	margin-top: 12px;
-  margin-right: 30px;
-}
 
 .container {
     background: url(crossword.png) no-repeat center center;
@@ -70,16 +68,8 @@ color: #04162b;
 width: 150px;
 }
 
-.favoritebox {
-	  background-color: lightgrey;
-    width: 100%;
-    border: 25px solid green;
-    padding: 25px;
-    margin: 25px;
-}
 
 .dogbybreedbox {
-	  background-color: lightgrey;
     width: 320px;
     border: 25px solid green;
     padding: 25px;

@@ -291,9 +291,7 @@ def breed_chart_data():
                         "backgroundColor": backgroundColor,
                         
                         "hoverBackgroundColor": [
-                            "#FF6384",
-                            "#36A2EB",
-                            "#4D4D4D",
+                           
                         ]
                     }]
                 }
@@ -435,7 +433,7 @@ def logout():
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the point
     # that we invoke the DebugToolbarExtension
-    app.debug = True
+    app.debug = False
     app.jinja_env.auto_reload = True
     app.config["TEMPLATES_AUTO_RELOAD"] = True
 
