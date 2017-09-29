@@ -7,6 +7,7 @@ from model import connect_to_db, db, User, Favorite, Dog, Shelter, Breed
 
 import datetime, dateutil.parser
 
+import ipdb
 import json
 import requests
 import xmltodict
@@ -106,7 +107,7 @@ def search_results():
     animal_dict = xmltodict.parse(animal_response.text.encode('utf-8'))
 
     animal_list = animal_dict['petfinder']['pets']['pet']
-
+    # ipdb.set_trace()
     #IF USER IS NOT LOGGED IN FLASH MESSAGE
     user_id = session['user_id']
 
@@ -433,7 +434,7 @@ def logout():
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the point
     # that we invoke the DebugToolbarExtension
-    app.debug = False
+    app.debug = True
     app.jinja_env.auto_reload = True
     app.config["TEMPLATES_AUTO_RELOAD"] = True
 
