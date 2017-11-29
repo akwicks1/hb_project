@@ -39,9 +39,9 @@ def breeds_into_db():
 		
 
 
-if __name__ == "__main__":
-    connect_to_db(app)
-    db.create_all()
-    breed_with_description()
-    breeds_into_db()
-    db.session.commit()
+# if __name__ == "__main__":
+#     connect_to_db(app)
+#     db.create_all()
+#     breed_with_description()
+#     breeds_into_db()
+#     db.session.commit()
