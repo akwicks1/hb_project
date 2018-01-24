@@ -55,10 +55,6 @@ h1, h2, h3, .navbar-brand { font-family: 'PT Sans', sans-serif;
   height: 200px;
 }
 
-.container {
-    background: url(crossword.png) no-repeat center center;
-}
-
 #map {
 height: 400px;
 width: 100%;
@@ -67,7 +63,6 @@ width: 100%;
 color: #04162b;
 width: 150px;
 }
-
 
 .dogbybreedbox {
     width: 320px;

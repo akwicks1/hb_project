@@ -109,7 +109,13 @@ def search_results():
     animal_list = animal_dict['petfinder']['pets']['pet']
     # ipdb.set_trace()
     #IF USER IS NOT LOGGED IN FLASH MESSAGE
-    user_id = session['user_id']
+    if 'user_id' not in session:
+        flash('Please Log In!')
+        return redirect('/')
+
+
+    else:
+        user_id = session['user_id']
 
     for animal_obj in animal_list:
 
